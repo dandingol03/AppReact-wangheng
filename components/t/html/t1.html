@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="../../../build/bootstrap/js/jquery-latest.js"></script>
+    <script>
+        $(document).ready(function(){
+            var obj={
+                name:"wjj",
+                data:{
+                    age:20,
+                    house:"none",
+                    stagged:true
+                }
+            }
+            for(var item in obj) {
+                console.log("item=" + item);
+                console.log();
+            }
+            var components=[
+                {name:"年级",type:"dropdown"},
+                {name:"查询",type:"query"}
+            ]
+            components.map(function(item,i) {
+                for(var index in item) {
+                    console.log("index="+item[index]);
+                    console.log();
+                }
+            })
+        });
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

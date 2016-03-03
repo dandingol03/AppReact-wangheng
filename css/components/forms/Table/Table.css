@@ -1,0 +1,22 @@
+tbody>tr:nth-child(1){
+    background-color:transparent;
+    color:#333;
+}
+tbody>tr:nth-child(1):not{
+    background-color:#fff;
+}
+tbody>tr:hover {
+    background-color:transparent;
+    border-color: transparent;
+}
+tbody>tr:hover>td>input[type="checkbox"]{
+    cursor: pointer;
+}
+tbody>tr.un-render:hover{
+    background-color:transparent;
+    border-color:transparent;
+}
+table{
+    background-image:url('../../../../icon/body.gif');
+   /* background-repeat:repeat-x,repeat-y;*/
+}
