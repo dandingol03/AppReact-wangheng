@@ -32,7 +32,7 @@ function Boot()
         {'name':'jb','age':23,'sex':'man'}
     ]
     var data$options={
-        url:"../../gradms/bsuims/reactPageDataRequest.do",
+        url:"/gradms/bsuims/reactPageDataRequest.do",
         params:{
             reactPageName:'newCultivatePlanPage',
             reactActionName:'newPlanselectCourse'

@@ -44,7 +44,8 @@ var CoupleTableElement=React.createClass({
                 else{//删除所选表的记录
                     dataS[i].splice(ob.checkedIndex,1);
                 }
-            })
+            });
+
             this.setState({dataS:dataS});
         }
 
@@ -113,7 +114,7 @@ var CoupleTableElement=React.createClass({
        var divRowStyle = {
            marginTop:0
        };
-       var containerStyle={textAlign:"center"};
+       var containerStyle={textAlign:"center",paddingRight:"20"};
 
        var tags=null;
 

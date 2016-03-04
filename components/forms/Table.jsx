@@ -258,11 +258,26 @@ var Table=React.createClass({
 
         //tbody表头
         var titles;
+        var cols;
+        if(this.state.data!==undefined&&this.state.data!==null)
+        {
+            titles=new Array();
+            var temp=this.state.data[0];
+            for(var index in temp) {
+                titles.push(index);
+            }
+            cols=titles.length;
+        }
+        if(cols==undefined||cols==null||cols==0) {
+            cols=1;
+        }
+
+
         var ths;
-        if(this.state.titles!==null&&this.state.titles!==undefined&&this.state.titles.length>0)
+        if(titles!==null&&titles!==undefined&&titles.length>0)
         {
             var group=this.state.group;
-            titles=this.state.titles.map(function(item,i) {
+            titles=titles.map(function(item,i) {
                 if(group!==undefined&&group!==null)
                 {
                     if(group.property!==item)
@@ -272,7 +287,7 @@ var Table=React.createClass({
                     return(<th key={i}>{item}</th>);
             });
         }
-        if(titles!==null&&titles!==undefined)
+        if(titles!==null&&titles!==undefined&&titles.length>0)
         {
             if(this.state.checked!==undefined&&this.state.checked!==null)
             {
@@ -357,7 +372,7 @@ var Table=React.createClass({
         {
             checkedIndex=this.state.checkedIndex;
             checkCb=this.checkCb;
-            checkButton=(<tr className="un-render"><td colSpan={this.state.cols+1}>
+            checkButton=(<tr className="un-render"><td colSpan={cols+1}>
                 <ButtonElement  type="button"
                                         buttonClass="btn btn-default" title={this.state.checked.name}
                                          handle={this.checkHandle}
@@ -515,7 +530,7 @@ var Table=React.createClass({
         if(this.state.checked!==undefined&&this.state.checked!==null)
         {
             th$head=( <tr>
-                <th colSpan={this.state.cols+1}
+                <th colSpan={cols+1}
                     style={this.state.align}>
                     {components}
                 </th>
@@ -530,18 +545,14 @@ var Table=React.createClass({
             </tr>);
         }
 
-    var theadStyle={textAlign:"center"}
-        //郑艳
+        var theadStyle={textAlign:"center"}
         var title;
         if(this.state.title!==undefined&&this.state.title!==null) {
             title=this.state.title;
         }
 
-        var cols;
-        if(this.state.cols!==undefined&&this.state.cols!==null)
-        cols=this.state.cols;
     return(
-        <table className="table table-bordered center" style={Object.assign(centerStyle,widthStyle)}>
+        <table className="table table-bordered center fu" style={Object.assign(centerStyle,widthStyle)}>
             <thead>
             <tr><th colSpan={this.state.checked!==undefined&&this.state.checked!==null?cols+1:cols} style={theadStyle}>
                 {title}</th></tr>

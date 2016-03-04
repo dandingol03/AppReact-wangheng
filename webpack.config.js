@@ -24,7 +24,7 @@ module.exports = {
         port:3000,
         hot:true,
         proxy:{
-            '*/gradms/busims/*.do':{
+            '/gradms/bsuims/*.do':{
                     target: 'http://localhost:8080/',
                     secure: false
             }

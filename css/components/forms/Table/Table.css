@@ -5,6 +5,9 @@ tbody>tr:nth-child(1){
 tbody>tr:nth-child(1):not{
     background-color:#fff;
 }
+tboyd>tr:nth-child(1)>td{
+    text-align:center;
+}
 tbody>tr:hover {
     background-color:transparent;
     border-color: transparent;
@@ -16,7 +19,20 @@ tbody>tr.un-render:hover{
     background-color:transparent;
     border-color:transparent;
 }
-table{
+table.table-bordered.center.fu{
     background-image:url('../../../../icon/body.gif');
    /* background-repeat:repeat-x,repeat-y;*/
+
+}
+.table.table-bordered.center.fu>tbody>tr>td{
+    border:1px solid #84C3F2;
+}
+.table.table-bordered.center.fu>thead>tr>td{
+    border:1px solid #84C3F2;
+}
+.table.table-bordered.center.fu>thead>tr>th{
+    border:1px solid #84C3F2;
+}
+.table.table-bordered.center.fu>tbody>tr>th{
+    border:1px solid #84C3F2;
 }

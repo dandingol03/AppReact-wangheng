@@ -54,7 +54,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "f5375ecad14b65721fc1"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "15eea638905a4589ed06"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -620,7 +620,7 @@
 	    var data1 = [{ 'name': 'wjj', 'age': 18, 'sex': 'man' }, { 'name': 'zyy', 'age': 25, 'sex': 'woman' }];
 	    var data2 = [{ 'name': 'wjj', 'age': 18, 'sex': 'man' }, { 'name': 'zyy', 'age': 25, 'sex': 'woman' }, { 'name': 'jb', 'age': 23, 'sex': 'man' }];
 	    var data$options = {
-	        url: "../../gradms/bsuims/reactPageDataRequest.do",
+	        url: "/gradms/bsuims/reactPageDataRequest.do",
 	        params: {
 	            reactPageName: 'newCultivatePlanPage',
 	            reactActionName: 'newPlanselectCourse'
@@ -20562,10 +20562,23 @@
 	
 	        //tbody表头
 	        var titles;
+	        var cols;
+	        if (this.state.data !== undefined && this.state.data !== null) {
+	            titles = new Array();
+	            var temp = this.state.data[0];
+	            for (var index in temp) {
+	                titles.push(index);
+	            }
+	            cols = titles.length;
+	        }
+	        if (cols == undefined || cols == null || cols == 0) {
+	            cols = 1;
+	        }
+	
 	        var ths;
-	        if (this.state.titles !== null && this.state.titles !== undefined && this.state.titles.length > 0) {
+	        if (titles !== null && titles !== undefined && titles.length > 0) {
 	            var group = this.state.group;
-	            titles = this.state.titles.map(function (item, i) {
+	            titles = titles.map(function (item, i) {
 	                if (group !== undefined && group !== null) {
 	                    if (group.property !== item) return _react2.default.createElement(
 	                        'th',
@@ -20579,7 +20592,7 @@
 	                );
 	            });
 	        }
-	        if (titles !== null && titles !== undefined) {
+	        if (titles !== null && titles !== undefined && titles.length > 0) {
 	            if (this.state.checked !== undefined && this.state.checked !== null) {
 	                if (this.state.title$font$color !== undefined && this.state.title$font$color !== null) {
 	                    if (this.state.title$color !== undefined && this.state.title$color !== null) {
@@ -20746,7 +20759,7 @@
 	                { className: 'un-render' },
 	                _react2.default.createElement(
 	                    'td',
-	                    { colSpan: this.state.cols + 1 },
+	                    { colSpan: cols + 1 },
 	                    _react2.default.createElement(_ButtonElement2.default, { type: 'button',
 	                        buttonClass: 'btn btn-default', title: this.state.checked.name,
 	                        handle: this.checkHandle
@@ -20883,7 +20896,7 @@
 	                null,
 	                _react2.default.createElement(
 	                    'th',
-	                    { colSpan: this.state.cols + 1,
+	                    { colSpan: cols + 1,
 	                        style: this.state.align },
 	                    components
 	                )
@@ -20902,17 +20915,14 @@
 	        }
 	
 	        var theadStyle = { textAlign: "center" };
-	        //郑艳
 	        var title;
 	        if (this.state.title !== undefined && this.state.title !== null) {
 	            title = this.state.title;
 	        }
 	
-	        var cols;
-	        if (this.state.cols !== undefined && this.state.cols !== null) cols = this.state.cols;
 	        return _react2.default.createElement(
 	            'table',
-	            { className: 'table table-bordered center', style: Object.assign(centerStyle, widthStyle) },
+	            { className: 'table table-bordered center fu', style: Object.assign(centerStyle, widthStyle) },
 	            _react2.default.createElement(
 	                'thead',
 	                null,
@@ -21850,7 +21860,7 @@
 	
 	
 	// module
-	exports.push([module.id, "tbody>tr:nth-child(1){\n    background-color:transparent;\n    color:#333;\n}\ntbody>tr:nth-child(1):not{\n    background-color:#fff;\n}\ntbody>tr:hover {\n    background-color:transparent;\n    border-color: transparent;\n}\ntbody>tr:hover>td>input[type=\"checkbox\"]{\n    cursor: pointer;\n}\ntbody>tr.un-render:hover{\n    background-color:transparent;\n    border-color:transparent;\n}\ntable{\n    background-image:url(" + __webpack_require__(175) + ");\n   /* background-repeat:repeat-x,repeat-y;*/\n}", ""]);
+	exports.push([module.id, "tbody>tr:nth-child(1){\n    background-color:transparent;\n    color:#333;\n}\ntbody>tr:nth-child(1):not{\n    background-color:#fff;\n}\ntboyd>tr:nth-child(1)>td{\n    text-align:center;\n}\ntbody>tr:hover {\n    background-color:transparent;\n    border-color: transparent;\n}\ntbody>tr:hover>td>input[type=\"checkbox\"]{\n    cursor: pointer;\n}\ntbody>tr.un-render:hover{\n    background-color:transparent;\n    border-color:transparent;\n}\ntable.table-bordered.center.fu{\n    background-image:url(" + __webpack_require__(175) + ");\n   /* background-repeat:repeat-x,repeat-y;*/\n\n}\n.table.table-bordered.center.fu>tbody>tr>td{\n    border:1px solid #84C3F2;\n}\n.table.table-bordered.center.fu>thead>tr>td{\n    border:1px solid #84C3F2;\n}\n.table.table-bordered.center.fu>thead>tr>th{\n    border:1px solid #84C3F2;\n}\n.table.table-bordered.center.fu>tbody>tr>th{\n    border:1px solid #84C3F2;\n}", ""]);
 	
 	// exports
 
@@ -22147,6 +22157,7 @@
 	                    dataS[i].splice(ob.checkedIndex, 1);
 	                }
 	            });
+	
 	            this.setState({ dataS: dataS });
 	        }
 	    },
@@ -22200,7 +22211,7 @@
 	        var divRowStyle = {
 	            marginTop: 0
 	        };
-	        var containerStyle = { textAlign: "center" };
+	        var containerStyle = { textAlign: "center", paddingRight: "20" };
 	
 	        var tags = null;
 	
@@ -22274,7 +22285,7 @@
 	
 	
 	// module
-	exports.push([module.id, "div.container{\r\nbackground-image:url(" + __webpack_require__(175) + ");\r\nheight:100%;\r\n    width:100%;\r\n}", ""]);
+	exports.push([module.id, "div.container{\r\nbackground-image:url(" + __webpack_require__(175) + ");\r\nheight:100%;\r\n    width:100%;\r\n}\r\ndiv.row>div.container{\r\n    padding-top:20px;\r\n    padding-right:20px;\r\n\r\n}", ""]);
 	
 	// exports
 
