@@ -9,10 +9,25 @@ import CheckBoxElement from '../basic/CheckBoxElement.jsx';
  * @property,multiEnable(false|number)
  */
 var TrElement =React.createClass({
-    clickCb:function(evt){
-        var target=evt.target;
-        if(this.props.clickCb!==undefined&&this.props.clickCb!==null) {
-            this.props.clickCb(this.props.rowIndex);
+    checkCb:function(ob){
+        if(this.props.checkCb!==undefined&&this.props.checkCb!==null) {
+            if(this.props["data-index"]!==undefined&&this.props["data-index"]!==null)
+            {
+                var ob={rowIndex:this.props.rowIndex,index:this.props["data-index"]};
+                this.props.checkCb(ob);
+            }
+            else
+                this.props.checkCb(ob);
+        }
+    },
+    opHandle:function(ob){
+        var content=ob;
+        if(this.props.opHandle!==undefined&&this.props.opHandle!==null)
+        {
+            var rowIndex=this.props.rowIndex;
+            var data$index=this.props["data-index"];
+            this.props.opHandle({rowIndex:rowIndex,"data-index":data$index,content:content});
+
         }
     },
     render:function(){
@@ -46,7 +61,7 @@ var TrElement =React.createClass({
             for(var field in rowData)
             {
                 var width=null;
-                if(widths!==null&&widths!==undefined&&widths!==false&&index<widths.length)
+                if(widths!==false&&widths!==undefined&&widths!==null&&index<widths.length)
                     width=widths[index];
                 var item=rowData[field];
                 if(item===false||item===true)
@@ -56,7 +71,7 @@ var TrElement =React.createClass({
                 {
                     if(updateFlag!==undefined&&updateFlag!==null&&updateFlag==true)
                     tgroups.push(<TdWrapper width={width} tdBasic={tdBasic}
-                                               tdData={item} multiEnable={multiEnable} key={index++} rowSpan={rowSpan}/>);
+                                            updateFlag={true}      tdData={item} multiEnable={multiEnable} key={index++} rowSpan={rowSpan}/>);
                 }
                 else{
                     tds.push(<TdWrapper   width={width} tdBasic={tdBasic}
@@ -70,11 +85,22 @@ var TrElement =React.createClass({
         }
 
 
+        //op$ele,
+        //if parent component has pass op down,he op$ele will store the infomation
+        var op$ele;
+        if(this.props.op!==undefined&&this.props.op!==null)
+        {
+            op$ele=<TdWrapper  tdBasic={"op"} op={this.props.op}
+                               multiEnable={1} opHandle={this.opHandle}/>
+        }
+
+
 
         var tr$color;
         if(this.props["tr-color"]!==undefined&&this.props["tr-color"]!==null) {
             tr$color = {backgroundColor:this.props["tr-color"]};
         }
+        //是否需要显示序号
         if(isLineNumberVisible===true)
         {
             if(this.props.insertCheck===true)
@@ -84,18 +110,20 @@ var TrElement =React.createClass({
                     return (<tr  style={tr$color} >
                             {tgroups}
                         <td>
-                            <CheckBoxElement data-index={this.props.rowIndex} checkCb={this.props.checkCb} checked={this.props.checked}/>
+                            <CheckBoxElement data-index={this.props.rowIndex} checkCb={this.checkCb} checked={this.props.checked}/>
                         </td>
                         <td>{this.props.rowIndex}</td>
                         {tds}
+                        {op$ele}
                     </tr>);
                 }else{
                     return (<tr  style={tr$color} >
                         <td>
-                            <CheckBoxElement data-index={this.props.rowIndex} checkCb={this.props.checkCb} checked={this.props.checked}/>
+                            <CheckBoxElement data-index={this.props.rowIndex} checkCb={this.checkCb} checked={this.props.checked}/>
                         </td>
                         <td>{this.props.rowIndex}</td>
                         {tds}
+                        {op$ele}
                     </tr>);
                 }
 
@@ -107,11 +135,13 @@ var TrElement =React.createClass({
                         {tgroups}
                         <td>{this.props.rowIndex}</td>
                         {tds}
+                        {op$ele}
                     </tr>);
                 }else{
                     return (<tr  style={tr$color} >
                         <td>{this.props.rowIndex}</td>
                         {tds}
+                        {op$ele}
                     </tr>);
                 }
 
@@ -125,16 +155,18 @@ var TrElement =React.createClass({
                     return (<tr style={tr$color} >
                         {tgroups}
                         <td>
-                            <CheckBoxElement data-index={this.props.rowIndex} checkCb={this.props.checkCb} checked={this.props.checked}/>
+                            <CheckBoxElement data-index={this.props.rowIndex} checkCb={this.checkCb} checked={this.props.checked}/>
                         </td>
                         {tds}
+                        {op$ele}
                     </tr>)
                 }else{
                     return (<tr style={tr$color} >
                         <td>
-                            <CheckBoxElement data-index={this.props.rowIndex} checkCb={this.props.checkCb} checked={this.props.checked}/>
+                            <CheckBoxElement data-index={this.props.rowIndex} checkCb={this.checkCb} checked={this.props.checked}/>
                         </td>
                         {tds}
+                        {op$ele}
                     </tr>)
                 }
 
@@ -143,6 +175,7 @@ var TrElement =React.createClass({
                 return (<tr style={tr$color} >
                     {tgroups}
                     {tds}
+                    {op$ele}
                 </tr>)
             }
 

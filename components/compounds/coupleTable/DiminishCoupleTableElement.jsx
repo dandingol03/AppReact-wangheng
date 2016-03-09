@@ -1,8 +1,8 @@
 import React from 'react';
-import Table from '../forms/Table.jsx';
+import Table from '../../forms/Table'
 
 
-var CoupleTableElement=React.createClass({
+var DiminishCoupleTableElement =React.createClass({
     initialDatas:function(){
         if(this.state.data$options!==undefined&&this.state.data$options!==null)
         {
@@ -21,7 +21,6 @@ var CoupleTableElement=React.createClass({
                         data.array.map(function(item,i) {
                             dataS.push(item);
                         });
-                        this.state.dataS=dataS;
                         this.setState({dataS:dataS,initialDataS:true});
                     }
                 }.bind(this),
@@ -59,7 +58,7 @@ var CoupleTableElement=React.createClass({
             if(ob.index!==undefined&&ob.index!==null) {
                 var methodName=ob.method;
                 this[methodName]({record:ob.content,index:ob.index,
-                checkedIndex:ob.checkedIndex});
+                    checkedIndex:ob.checkedIndex});
             }
         }
     },
@@ -96,47 +95,46 @@ var CoupleTableElement=React.createClass({
         }
         return {tags:tags,dataS:dataS,initialDataS:initialDataS,data$options:data$options};
     },
-   render:function(){
+    render:function(){
 
 
-       var width="100%";
-       var divRowStyle = {
-           marginTop: 20
-       };
-       var containerStyle={textAlign:"center"};
+        var width="600px";
+        var divRowStyle = {
+            marginTop: 20
+        };
+        var containerStyle={textAlign:"center"};
 
-       var tags=null;
+        var tags=null;
 
 
-       if(this.state.initialDataS===true)
-       {
-           if(this.state.tags!==undefined&&this.state.tags!==null) {
-               var notifyCb=this.notifyCb;
-               var tags=this.state.tags;
-               tags=this.state.dataS.map(function(item,i) {
-                   var data$options=tags[i]["data-options"];
-                   var data=item;
-                   return (<Table tdBasic={true} multiEnable={1} key={i} index={i}
-                                  width={width} center={true}
-                                  data-options={data$options} data={data}  title-color="#968D8D"
-                                  title-font-color="#fff" notifyCb={notifyCb}
-                       />)
-               });
+        if(this.state.initialDataS===true)
+        {
+            if(this.state.tags!==undefined&&this.state.tags!==null) {
+                var notifyCb=this.notifyCb;
+                var tags=this.state.tags;
+                tags=this.state.dataS.map(function(item,i) {
+                    var data$options=tags[i]["data-options"];
+                    var data=item;
+                    return (<Table tdBasic={true} multiEnable={1} key={i} index={i}
+                                   width={width} center={true}
+                                   data-options={data$options} data={data} align="right" title-color="#968D8D"
+                                   title-font-color="#fff" notifyCb={notifyCb} title="fuck u"
+                        />)
+                });
 
-           }
-       }
+            }
+        }
         else{
-           this.initialDatas();
-       }
+            this.initialDatas();
+        }
 
 
-      return(
-          <div className="row" style={divRowStyle}>
-          <div className="container" style={containerStyle} >
-              {tags}
-          </div>
-      </div>) ;
-   }
+        return(
+            <div className="row" style={divRowStyle}>
+                <div className="container" style={containerStyle} >
+                    {tags}
+                </div>
+            </div>) ;
+    }
 });
-
-export default CoupleTableElement;
+export default DiminishCoupleTableElement

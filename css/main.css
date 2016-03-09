@@ -10,8 +10,10 @@ html {
 
 body {
     margin: 0;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background-image:url('../icon/leftmenu_bg.gif');
+    font-family: lucida, verdana, arial, sans-serif;
+    font-size:12px;
+    background-image: url(../icon/body.gif);
+    text-align: center;
 }
 
 h1, h2, h3, h4, h5, h6, p, ul {

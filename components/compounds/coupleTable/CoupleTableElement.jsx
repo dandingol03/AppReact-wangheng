@@ -1,7 +1,10 @@
 import React from 'react';
-import Table from '../forms/Table.jsx';
+import Table from '../../forms/Table.jsx';
 
 
+/**
+ * @api,
+ */
 var CoupleTableElement=React.createClass({
     initialDatas:function(){
         if(this.state.data$options!==undefined&&this.state.data$options!==null)
@@ -14,15 +17,37 @@ var CoupleTableElement=React.createClass({
                 dataType: 'json',
                 data: params,
                 cache: false,
-                success: function(data) {
-                    if(data!==undefined&&data!==null)
-                    {
-                        var dataS=new Array();
-                        data.array.map(function(item,i) {
+                success: function(ob) {
+                    var data=ob.array;
+                    var group=ob.group;
+                    var op=ob.op;
+                    var title=ob.title;
+                    var title$index=ob.title$index;
+                    var tags=this.state.tags;
+
+                    if(data!==undefined&&data!==null) {
+                        var dataS = new Array();
+                        data.map(function (item, i) {
                             dataS.push(item);
                         });
-                        this.state.dataS=dataS;
-                        this.setState({dataS:dataS,initialDataS:true});
+                        if (group !== undefined && group !== null) {
+                            data.map(function (item, i) {
+                                tags[i]["data-options"].group = group;
+                            });
+                        }
+                        //契约选项的更新
+                        if (op !== undefined && op !== null) {
+                            op.map(function (item, i) {
+                                tags[item.index]["data-options"].op = item;
+                            })
+                        }
+                        if (title !== undefined && title !== null && !isNaN(parseInt(title$index)))
+                        {
+                            tags[parseInt(title$index)]["data-options"].title=title;
+                        }
+                        //suck
+                        this.setProps({dataS: dataS,tags:tags});
+                        this.setState({initialDataS:true});
                     }
                 }.bind(this),
                 error: function(xhr, status, err) {
@@ -66,8 +91,11 @@ var CoupleTableElement=React.createClass({
     getInitialState:function(){
 
         //property tags(name,data-options,data)
+        //u can put data[] in this setting when component first be rendered
         var tags;
+        //property dataS
         var dataS;
+        //dataS initial status
         var initialDataS;
         if(this.props.tags!==undefined&&this.props.tags!==null)
         {
@@ -113,13 +141,19 @@ var CoupleTableElement=React.createClass({
            if(this.state.tags!==undefined&&this.state.tags!==null) {
                var notifyCb=this.notifyCb;
                var tags=this.state.tags;
-               tags=this.state.dataS.map(function(item,i) {
+               //this loop based in dataS,so if u want to reset data in tabls
+               //u can dynamiclly set dataS through setState method
+               var initial$dataS=this.initialDatas;
+               var tables=this.state.dataS.map(function(item,i) {
+                   //fetch data-options of each table
                    var data$options=tags[i]["data-options"];
+                   //fetch data of each data
                    var data=item;
                    return (<Table tdBasic={true} multiEnable={1} key={i} index={i}
                                   width={width} center={true}
-                                  data-options={data$options} data={data}  title-color="#968D8D"
+                                  data-options={data$options} data={data} align="left" title-color="transparent"
                                   title-font-color="#fff" notifyCb={notifyCb}
+                                  initialDatas={initial$dataS}
                        />)
                });
 
@@ -133,7 +167,7 @@ var CoupleTableElement=React.createClass({
       return(
           <div className="row" style={divRowStyle}>
           <div className="container" style={containerStyle} >
-              {tags}
+              {tables}
           </div>
       </div>) ;
    }

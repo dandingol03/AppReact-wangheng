@@ -1,44 +1,79 @@
 import React from "react";
+import TodoStore from '../_event/TodoStore.js';
 
 var ButtonElement=React.createClass({
-    clickCb:function(evt){
-        if(this.props.query!==undefined&&this.props.query!==null)
+    feedbackCb:function(ob)
+    {
+
+        this.state.feedback.params[ob.id]=ob.content;
+        var count=0;
+        for(var item in this.state.feedback.params)
         {
-            if(this.props.query.params!==undefined&&this.props.query.params!==undefined)
+            count++;
+        }
+        if(this.state.broadcastCount==count)
+        {
+            var feedback;
+            this.queryHandle(this.state.feedback.params);
+            this.state.feedback.params=new Array();
+        }
+    },
+    clickCb:function(evt){
+        if(this.state.publish!==undefined&&this.state.publish!==null)//优先处理订阅事件
+        {
+            if(this.state.publish.type==undefined||this.state.publish.type==null)
+                throw "publish type undefined!";
+            TodoStore.emit(this.state.publish.type);
+        }else{
+            if(this.props.query!==undefined&&this.props.query!==null)
             {
-                $.ajax({
-                    type: 'POST',
-                    url: this.props.query.url,
-                    dataType: 'json',
-                    data: this.props.query.params,
-                    cache: false,
-                    success: function(data) {
-                        console.log();
-                        console.log();
-                        if(this.props.handle!==null&&this.props.handle!==undefined)
-                            this.props.handle(data);
-                    }.bind(this),
-                    error: function(xhr, status, err) {
-                        if(xhr.readyStatus===4)
-                        {
-                            if(xhr.responseText!==undefined&&xht.responseText!==null) {
-                                var reg=/Cannot GET \/gradms\/authmsg.jsp/g;
-                                if(reg.test(xhr.responseText)==true)
-                                {
-                                    //TODO:relogin to gradms
-
-                                }
-                            }
-                        }
-                        console.error(this.props.url, status, err.toString());
-                    }
-                });
+                if(this.props.query.params!==undefined&&this.props.query.params!==undefined)
+                   this.queryHandle();
             }
+            else{
+                if(this.props.handle!==undefined&&this.props.handle!==null)
+                    this.props.handle(evt);
+            }
+        }
+    },
+    queryHandle:function(ob){
+        var query=this.props.query;
+        if(ob!==undefined&&ob!==null)
+            Object.assign(query.params,ob);
+        console.log();
+        $.ajax({
+            type: 'POST',
+            url: query.url,
+            dataType: 'json',
+            data: query.params,
+            cache: false,
+            success: function(data) {
+                if(this.props.handle!==null&&this.props.handle!==undefined)
+                    this.props.handle(data);
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(this.props.url, status, err.toString());
+            }
+        });
+    },
+    getInitialState:function(){
+        var subscribe;
+        if(this.props.subscribe!==undefined&&this.props.subscribe!==null)
+        subscribe=this.props.subscribe;
 
+        var broadcastCount;
+        var feedback;
+        var publish;
+        if(this.props.publish!==undefined&&this.props.publish!==null) {
+            publish=this.props.publish;
+            broadcastCount=this.props.publish.broadcastCount;
+            feedback={}
+            feedback["count"]=0;
+            feedback["params"]={};
         }
-        else{
-            this.props.handle(evt);
-        }
+        var arr;
+        return  {subscribe:subscribe,publish:publish,broadcastCount:broadcastCount,
+            feedback:feedback,arr:arr};
     },
     render:function(){
         var marginStyle={
@@ -68,6 +103,41 @@ var ButtonElement=React.createClass({
                 {this.props.children}
                 </button>
         )
+    },
+    componentDidMount:function(){
+        //注册订阅
+        if(this.state.subscribe!==undefined&&this.state.subscribe!==null)
+        {
+            var subscribe=this.state.subscribe;
+            var instance=this;
+            subscribe.map(function(item,i) {
+                if(item['type']!==undefined&&item['type']!==null) {
+                    TodoStore.addChangeListener(item['type'],item['callback'].bind(instance));
+                }
+            });
+        }
+        //注册消息发布
+        if(this.state.publish!==undefined&&this.state.publish!==null&&
+        this.state.broadcastCount!==undefined&&this.state.broadcastCount!==null) {
+            var publish=this.state.publish;
+            TodoStore.addChangeListener(publish.feedback.type,this.feedbackCb);
+        }
+    },
+    componentWillUnmount:function()
+    {
+        //销毁订阅
+        if(this.state.subscribe!==undefined&&this.state.subscribe!==null) {
+            var subscribe=this.state.subscribe;
+            subscribe.map(function(item,i) {
+                if(item['type']!==undefined&&item['type']!==null) {
+                    TodoStore.removeChangeListener(item['type'],item['callback']);
+                }
+            });
+        }
+        //销毁消息发布
+        if(this.state.publish!==undefined&&this.state.publish!==null) {
+            TodoStore.removeChangeListener('feedback',this.feedbackCb);
+        }
     }
 });
 

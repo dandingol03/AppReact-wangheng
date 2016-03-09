@@ -4,9 +4,12 @@ import LinkElement from './LinkElement.jsx';
 import '.././../css/components/basic/ListElement/ListElement.css';
 
 /**
- * @convention 1,register u callback if u want to get noticed when event trigged in data-option["components"]
- * @convention 2,let's make a deal u callback func should named with key \'cb\'
- * @convention 3,that is ,the responsibility to handle event should owe to Parent component
+ * @property,explicit:option: data-options{undefined||null||Object}
+ * @property,explicit:option:   data-options.params{Array},
+ * this property will form the content of list;
+ * @property,implicit:option:   data-options.components{customer}
+ * @property,implicit:option:   data-options.selected:{Integer}
+ * this prop will make the first menu in list to be choosed
  */
 var ListElement=React.createClass({
     linkCb:function(evt){
@@ -15,14 +18,16 @@ var ListElement=React.createClass({
         this.setState({selected:selected});
     },
     applyCb:function(){
-        if(this.props.cb!==undefined&&this.props.cb!==null)
+        if(this.props.applyCb!==undefined&&this.props.applyCb!==null)
         {
             if(this.state.selected!==null&&this.state.selected!==undefined
             &&!isNaN(parseInt(this.state.selected)))
             {
                 if(this.state.li$items!==undefined&&this.state.li$items!==null)
                 {
-                    this.props.cb(this.state.li$items[this.state.selected]);
+                    this.props.applyCb(
+                        {content:this.state.li$items[this.state.selected],
+                        index:this.state.selected});
                 }
             }
         }
@@ -30,8 +35,8 @@ var ListElement=React.createClass({
     cancelCb:function(evt){
         //cancel callback
         this.setState({selected:-1});
-        if(this.props.cb!==undefined&&this.props.cb!==null)
-            this.props.cb(evt);
+        if(this.props.cancelCb!==undefined&&this.props.cancelCb!==null)
+            this.props.cancelCb(evt);
     },
     getInitialState:function(){
 

@@ -54,7 +54,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "15eea638905a4589ed06"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "15b8174ec60d97ccc4a1"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -591,21 +591,52 @@
 	
 	var _Table2 = _interopRequireDefault(_Table);
 	
-	var _ListElement = __webpack_require__(176);
+	var _ListElement = __webpack_require__(172);
 	
 	var _ListElement2 = _interopRequireDefault(_ListElement);
 	
-	var _ButtonElement = __webpack_require__(169);
+	var _ButtonElement = __webpack_require__(173);
 	
 	var _ButtonElement2 = _interopRequireDefault(_ButtonElement);
 	
-	var _CoupleTableElement = __webpack_require__(180);
+	var _CoupleTableElement = __webpack_require__(187);
 	
 	var _CoupleTableElement2 = _interopRequireDefault(_CoupleTableElement);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	Boot();
+	
+	//make your cb in table environment
+	function cb(ob) {
+	    console.log("ob=" + ob);
+	    if (ob !== undefined && ob !== null) {
+	        if (ob.index !== undefined && ob.index !== null) {
+	            if (this.props.index !== ob.index) //与发出消息的组件编号不同
+	                {
+	                    var addRegex = /^add/g;
+	                    var data = this.state.data;
+	                    if (addRegex.test(ob.method)) //将消息源的记录添加
+	                        {
+	                            if (ob.multiCheck == true) {
+	                                ob.content.map(function (item, i) {
+	                                    data.push(item);
+	                                });
+	                            } else {
+	                                data.push(ob.content);
+	                            }
+	                            var titles = new Array();
+	                            var cols;
+	                            for (var field in data[0]) {
+	                                titles.push(field);
+	                            }
+	                            cols = titles.length;
+	                            this.setState({ data: data, cols: cols, titles: titles, data$initialed: true });
+	                        }
+	                }
+	        }
+	    }
+	}
 	
 	function Boot() {
 	
@@ -617,48 +648,27 @@
 	        console.log("ob=" + ob);
 	    };
 	
-	    var data1 = [{ 'name': 'wjj', 'age': 18, 'sex': 'man' }, { 'name': 'zyy', 'age': 25, 'sex': 'woman' }];
-	    var data2 = [{ 'name': 'wjj', 'age': 18, 'sex': 'man' }, { 'name': 'zyy', 'age': 25, 'sex': 'woman' }, { 'name': 'jb', 'age': 23, 'sex': 'man' }];
+	    var data1 = [{ 'name': 'wjj', 'age': 18, 'sex': 'man' }, { 'name': 'wang', 'age': 22, 'sex': 'man' }, { 'name': 'bigBang', 'age': 18, 'sex': 'man' }, { 'name': 'lalala', 'age': 14, 'sex': 'man' }, { 'name': 'zyy', 'age': 25, 'sex': 'woman' }, { 'name': 'bianfu', 'age': 20, 'sex': 'woman' }, { 'name': 'baomu', 'age': 18, 'sex': 'woman' }, { 'name': 'official', 'age': 17, 'sex': 'woman' }];
+	    var data2 = [];
 	    var data$options = {
-	        url: "/gradms/bsuims/reactPageDataRequest.do",
+	        url: "../../gradms/bsuims/reactPageDataRequest.do",
 	        params: {
 	            reactPageName: 'newCultivatePlanPage',
-	            reactActionName: 'newPlanselectCourse'
+	            reactActionName: 'newPlanSelectCourse'
 	        }
 	    };
-	
 	    var data$options$1 = {
-	        checked: {
-	            url: "../../gradms/bsuims/reactPageDataRequest.do",
-	            params: {
-	                reactPageName: 'newCultivatePlanPage',
-	                reactActionName: 'selectCourseDelete'
-	            },
-	            name: "删除上表选择",
-	            conductInTable: true
-	        }, group: {
-	            property: "类别"
-	        }
+	
+	        subscribe: [{ type: 'fire', callback: cb }]
 	
 	    };
 	
 	    var data$options$2 = {
-	        checked: {
-	            url: "../../gradms/bsuims/reactPageDataRequest.do",
-	            params: {
-	                reactPageName: 'newCultivatePlanPage',
-	                reactActionName: 'selectCourseInsert'
-	            },
-	            name: "增加下表选择",
-	            conductInTable: true
-	        },
-	        group: {
-	            property: "类别"
-	        }
+	        subscribe: [{ type: 'fire', callback: cb }]
 	    };
 	
 	    /*    var tags=[{"data":data1,"data-options":data$options$1}
-	        ,{"data":data2,"data-options":data$options$2}];*/
+	     ,{"data":data2,"data-options":data$options$2}];*/
 	    var tags = [{ "data-options": data$options$1 }, { "data-options": data$options$2 }];
 	    var containerStyle = { textAlign: "center" };
 	    (0, _reactDom.render)(_react2.default.createElement(_CoupleTableElement2.default, { tags: tags, 'data-options': data$options }), document.getElementById('cultivatePlanJsx'));
@@ -20336,19 +20346,27 @@
 	
 	var _TrElement2 = _interopRequireDefault(_TrElement);
 	
-	var _ButtonElement = __webpack_require__(169);
+	var _ButtonElement = __webpack_require__(173);
 	
 	var _ButtonElement2 = _interopRequireDefault(_ButtonElement);
 	
-	var _DropDownButtonElement = __webpack_require__(170);
+	var _DropDownButtonElement = __webpack_require__(180);
 	
 	var _DropDownButtonElement2 = _interopRequireDefault(_DropDownButtonElement);
 	
-	var _ComboBox = __webpack_require__(172);
+	var _ComboBox = __webpack_require__(182);
 	
 	var _ComboBox2 = _interopRequireDefault(_ComboBox);
 	
-	__webpack_require__(173);
+	var _InputElement = __webpack_require__(183);
+	
+	var _InputElement2 = _interopRequireDefault(_InputElement);
+	
+	var _TodoStore = __webpack_require__(174);
+	
+	var _TodoStore2 = _interopRequireDefault(_TodoStore);
+	
+	__webpack_require__(184);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -20359,48 +20377,136 @@
 	var Table = _react2.default.createClass({
 	    displayName: 'Table',
 	
+	    initialData: function initialData() {
+	        $.ajax({
+	            type: 'POST',
+	            url: this.props.query.url,
+	            dataType: 'json',
+	            data: this.props.query.params,
+	            cache: false,
+	            success: function (data) {
+	                if (data !== undefined && data !== null && data.length > 0) this.setState({ data: data, data$initialed: true });
+	            }.bind(this),
+	            error: function error(xhr, status, err) {
+	                console.error(this.props.url, status, err.toString());
+	            }
+	        });
+	    },
 	    checkCb: function checkCb(ob) {
 	        console.log("select index=" + ob);
-	        this.setState({ checkedIndex: parseInt(ob) });
+	        if (this.state.checked.multiCheck !== undefined && this.state.checked.multiCheck !== null && this.state.checked.multiCheck !== false) {
+	            var checkedIndex = this.state.checkedIndex;
+	            var checkedMap = this.state.checkedMap;
+	            if (checkedIndex !== -1) //此时已有项选中
+	                {
+	                    var pos = $.inArray(parseInt(ob.rowIndex), checkedIndex);
+	                    var _pos = $.inArray(parseInt(ob.index), checkedMap);
+	                    if (pos == -1) {
+	                        checkedIndex.push(parseInt(ob.rowIndex));
+	                        checkedMap.push(parseInt(ob.index));
+	                    } else {
+	                        checkedIndex.splice(pos, 1);
+	                        checkedMap.splice(_pos, 1);
+	                    }
+	                } else {
+	                checkedIndex = new Array();
+	                checkedIndex.push(parseInt(ob.rowIndex));
+	                checkedMap = new Array();
+	                checkedMap.push(parseInt(ob.index));
+	            }
+	            this.setState({ checkedIndex: checkedIndex, checkedMap: checkedMap });
+	        } else {
+	            this.setState({ checkedIndex: parseInt(ob.rowIndex), checkedMap: parseInt(ob.index) });
+	        }
 	    },
 	    checkHandle: function checkHandle() {
 	        var data = this.state.data;
 	        var checkedIndex = this.state.checkedIndex;
-	        if (checkedIndex !== undefined && checkedIndex !== null && checkedIndex > -1) {
-	            if (this.props.notifyCb !== undefined && this.props.notifyCb !== null) {
+	        var checkedMap = this.state.checkedMap;
+	        if (checkedIndex !== undefined && checkedIndex !== null && checkedIndex !== -1 && data !== undefined && data !== null) {
+	            if (this.state.checked.multiCheck !== undefined && this.state.checked.multiCheck !== null && this.state.checked.multiCheck !== false) {
+	                if (checkedMap == undefined || checkedMap == null) return;
+	
+	                var record = new Array();
+	                checkedMap.map(function (item, i) {
+	                    record.push(data[item]);
+	                });
 	                var ob = {
-	                    content: data[checkedIndex],
-	                    method: 'addHandle',
+	                    content: record,
+	                    method: 'addHandle', //if you want other component to invoke this method,you can pass it over
 	                    index: this.props.index,
-	                    checkedIndex: checkedIndex
+	                    checkedIndex: checkedIndex,
+	                    multiCheck: true
 	                };
-	                if (this.state.checked.conductInTable !== undefined && this.state.checked.conductInTable !== null && this.state.checked.conductInTable === true) {
-	                    var record = data[checkedIndex];
-	                    var id = record["课程号"];
-	                    record = JSON.stringify(record);
-	                    console.log("id=" + id);
-	                    var params = this.state.checked.params;
-	                    params["id"] = id;
-	                    params["record"] = record;
-	                    $.ajax({
-	                        type: 'POST',
-	                        url: this.state.checked.url,
-	                        dataType: 'json',
-	                        data: params,
-	                        cache: false,
-	                        success: function (data) {
-	                            console.log();
-	                            console.log();
-	                            if (this.props.handle !== null && this.props.handle !== undefined) this.props.handle(data);
-	                        }.bind(this),
-	                        error: function error(xhr, status, err) {
-	                            console.error(this.props.url, status, err.toString());
-	                        }
-	                    });
+	                _TodoStore2.default.emit('fire', ob);
+	                //给所有需要删除的位置标记
+	                checkedMap.map(function (item, i) {
+	                    data[item] = null;
+	                });
+	                for (var i = data.length - 1; i >= 0; i--) {
+	                    if (data[i] == null) data.splice(i, 1);
 	                }
-	                this.props.notifyCb(ob);
+	                var titles;
+	                if (data[0] !== undefined && data[0] !== null) {
+	                    titles = new Array();
+	                    for (var field in data[0]) {
+	                        titles.push(field);
+	                    }
+	                }
+	
+	                if (titles == undefined || titles == null) titles = null;
+	                this.setState({ data: data, checkedIndex: -1, checkedMap: null, titles: titles });
+	            } else {
+	                if (checkedIndex > -1) {
+	                    var record = data[checkedIndex];
+	                    if (record == undefined || record == null) return;
+	                    var ob = {
+	                        content: record,
+	                        method: 'addHandle', //if you want other component to invoke this method,you can pass it over
+	                        index: this.props.index,
+	                        checkedIndex: checkedIndex,
+	                        multiCheck: false
+	                    };
+	                    _TodoStore2.default.emit('fire', ob);
+	                    this.setState({ data: data, checkedIndex: -1 });
+	                }
 	            }
 	        }
+	    },
+	    opHandle: function opHandle(ob) {
+	        if (ob !== undefined && ob !== null) {
+	
+	            var task = ob.content; //教学任务
+	            var plan = this.props.data[ob["data-index"]];
+	            var reverge = { plan: plan, task: task };
+	            var params = this.state.op.query.params;
+	            params["plan"] = JSON.stringify(plan);
+	            params["task"] = JSON.stringify(task);
+	            //操作提交后台
+	            if (this.state.op.query !== undefined && this.state.op.query !== null) {
+	                this.queryHandle({ url: this.state.op.query.url,
+	                    params: params, callback: this.props.initialDatas });
+	            }
+	        }
+	    },
+	    queryHandle: function queryHandle(ob) {
+	        var query;
+	        if (ob !== null && ob !== undefined) query = ob;else query = this.state.query;
+	        console.log();
+	        $.ajax({
+	            type: 'POST',
+	            url: query.url,
+	            dataType: 'json',
+	            data: query.params,
+	            cache: false,
+	            success: function (data) {
+	                if (this.props.handle !== null && this.props.handle !== undefined) this.props.handle(data);
+	                if (ob.callback !== undefined && ob.callback !== null) ob.callback();
+	            }.bind(this),
+	            error: function error(xhr, status, err) {
+	                console.error(this.props.url, status, err.toString());
+	            }
+	        });
 	    },
 	    queryCallBack: function queryCallBack(ob) {
 	        var data = ob.data;
@@ -20435,10 +20541,11 @@
 	        if (width !== undefined && width !== null) {
 	            if (!isNaN(width)) width += "px";
 	            var pattern = /px$/g;
-	            var perPattern = /%$/g;
-	            if (!pattern.test(width) && !perPattern.test(width)) throw "width invalid,you should pass a number or a string like .px";
+	            var patt = /%$/g;
+	            if (!patt.test(width)) throw "width invalid,you should pass a number or a string like .px";
 	        }
-	
+	        //auto initialData enable
+	        var auto;
 	        //cell width customer
 	        var widths;
 	        //components list
@@ -20451,6 +20558,16 @@
 	        var checkedIndex;
 	        //group type
 	        var group;
+	        //event subscribe enable
+	        var subscribe;
+	        //text-align set
+	        var align;
+	        //data inital-status
+	        var data$initialed;
+	        //property query,is used to descript the url and params when data-inital is allowed
+	        var query;
+	        //property op,enable to add operation control at the last column
+	        var op;
 	        if (this.props["data-options"] !== null && this.props["data-options"] !== undefined) {
 	            var options = this.props["data-options"];
 	            //widths fetch
@@ -20474,6 +20591,20 @@
 	            if (options.group !== null && options.group !== undefined) {
 	                group = options.group;
 	            }
+	
+	            //event subscript enable
+	            if (options.subscribe !== undefined && options.subscribe !== null) {
+	                subscribe = options.subscribe;
+	            }
+	
+	            //initial-data automaticaly
+	            if (options.auto !== undefined && options.auto !== null && options.auto !== false) auto = true;
+	
+	            //this property is only effective when options.auto==true
+	            if (options.query !== undefined && options.query !== null) query = options.query;
+	
+	            //property op,this append a control at the last of column
+	            if (options.op !== undefined && options.op !== null) op = options.op;
 	        }
 	
 	        //cols should be changed since data injected every time
@@ -20486,9 +20617,12 @@
 	                titles.push(field);
 	            }
 	            cols = titles.length;
-	        } else cols = 1;
+	            data$initialed = true;
+	        } else {
+	            cols = 1;
+	            data$initialed = false;
+	        }
 	
-	        var align;
 	        if (this.props.align !== undefined && this.props.align !== null) {
 	            switch (this.props.align) {
 	                case "left":
@@ -20524,24 +20658,45 @@
 	            title$font$color = { color: this.props["title-font-color"] };
 	        }
 	
-	        var title;
-	        if (this.props.title !== undefined && this.props.title !== null) title = this.props.title;
-	
+	        //property checkedMap,mapping rowIndex to real-index in data
+	        var checkedMap;
 	        return {
 	            width: width, widths: widths, cols: cols, components: components,
 	            multiEnable: multiEnable, tdBasic: tdBasic, data: data, titles: titles,
 	            align: align, title$color: title$color, tr$color: tr$color, title$font$color: title$font$color,
-	            stripped: stripped, checked: checked, title: title,
-	            checkedIndex: checkedIndex, group: group
+	            stripped: stripped, checked: checked,
+	            checkedIndex: checkedIndex, checkedMap: checkedMap, group: group, subscribe: subscribe,
+	            data$initialed: data$initialed, auto: auto, query: query,
+	            op: op
 	        };
 	    },
-	    componentDidUpdate: function componentDidUpdate(ob) {},
+	    componentDidMount: function componentDidMount(ob) {
+	        //注册订阅
+	        if (this.state.subscribe !== undefined && this.state.subscribe !== null) {
+	            var subscribe = this.state.subscribe;
+	            var instance = this;
+	            subscribe.map(function (item, i) {
+	                if (item['type'] !== undefined && item['type'] !== null) {
+	                    _TodoStore2.default.addChangeListener(item['type'], item['callback'].bind(instance));
+	                }
+	            });
+	        }
+	    },
+	    componentWillUnmount: function componentWillUnmount(ob) {
+	        //销毁订阅
+	        if (this.state.subscribe !== undefined && this.state.subscribe !== null) {
+	            var subscribe = this.state.subscribe;
+	            subscribe.map(function (item, i) {
+	                if (item['type'] !== undefined && item['type'] !== null) {
+	                    _TodoStore2.default.removeChangeListener(item['type'], item['callback']);
+	                }
+	            });
+	        }
+	    },
 	    render: function render() {
-	
 	        {/*css style width*/}
-	        var w;
-	        if (this.state.width !== undefined && this.state.width !== null) w = this.state.width;
-	        var widthStyle;
+	        var w = this.state.width;
+	        var widthStyle = null;
 	        if (w !== undefined && w !== null) {
 	            widthStyle = { width: w };
 	        } else {
@@ -20557,394 +20712,629 @@
 	            marginRight: "auto"
 	        };
 	
-	        var isLineNumberVisible = this.props.isLineNumberVisible;
-	        if (isLineNumberVisible === undefined || isLineNumberVisible === null) isLineNumberVisible = false;else isLineNumberVisible = true;
+	        var data = this.props.data;
 	
-	        //tbody表头
-	        var titles;
-	        var cols;
-	        if (this.state.data !== undefined && this.state.data !== null) {
-	            titles = new Array();
-	            var temp = this.state.data[0];
-	            for (var index in temp) {
-	                titles.push(index);
+	        //表格数据未初始化
+	        if (this.state.data$initialed !== true) {
+	            if (this.state.auto === true) this.initialData();
+	            //显示已配置的组件
+	            var querycb = this.queryCallBack;
+	            var components;
+	            if (this.state.components !== undefined && this.state.components !== null) {
+	
+	                var queryHandle = this.queryHandle;
+	                var queryExist = false;
+	                var queryType;
+	                //广播事件的命名以publish的type属性为标准
+	                var publish;
+	                var broadcastCount = 0;
+	                this.state.components.map(function (item, i) {
+	                    if (item.type == "query") {
+	                        if (queryExist == false) {
+	                            queryExist = true;
+	                            var type = 'query' + item.id;
+	                            var feedbackType = 'feedback' + item.id;
+	                            var feedback = { type: feedbackType };
+	                            publish = { cb: queryHandle, type: type,
+	                                feedback: feedback };
+	                        } else throw "query component duplicate!";
+	                    } else {
+	                        if (item.type == "dropdown") {
+	                            broadcastCount++;
+	                        } else if (item.type == "input") {
+	                            broadcastCount++;
+	                        }
+	                    }
+	                });
+	                publish.broadcastCount = broadcastCount;
+	
+	                components = this.state.components.map(function (item, i) {
+	                    if (item.type == "query") //查询组件
+	                        {
+	
+	                            return _react2.default.createElement(_ButtonElement2.default, { type: 'button',
+	                                buttonClass: 'btn btn-default', title: item.name,
+	                                query: item, handle: querycb, key: i,
+	                                publish: publish });
+	                        }
+	                    if (item.type == "dropdown") //下拉组件
+	                        {
+	                            var subscribe;
+	                            if (queryExist == true) {
+	                                var emit = function emit() {
+	                                    var selectedIndex = this.state.selectedIndex;
+	                                    var content;
+	                                    if (selectedIndex !== undefined && selectedIndex !== null) {
+	                                        content = data[selectedIndex]['value'];
+	                                    } else content = null;
+	                                    var record = { id: this.props.id, content: content };
+	                                    _TodoStore2.default.emit(publish.feedback.type, record);
+	                                };
+	                                subscribe = [{ type: publish.type, callback: emit }];
+	                            }
+	                            return _react2.default.createElement(_DropDownButtonElement2.default, {
+	                                title: item.name,
+	                                data: item.data, key: i,
+	                                id: item.id,
+	                                subscribe: subscribe
+	                            });
+	                        }
+	                    if (item.type == "input") //输入框组件
+	                        {
+	                            var subscribe;
+	                            if (queryExist == true) {
+	                                var emit = function emit() {
+	                                    var record = { id: this.props.id, content: this.state.content };
+	                                    _TodoStore2.default.emit(publish.feedback.type, record);
+	                                };
+	                                subscribe = [{ type: publish.type, callback: emit }];
+	                            }
+	                            return _react2.default.createElement(_InputElement2.default, {
+	                                type: 'text',
+	                                placeholder: 'Search',
+	                                id: item.id,
+	                                className: 'inline',
+	                                subscribe: subscribe,
+	                                key: i });
+	                        }
+	                });
 	            }
-	            cols = titles.length;
-	        }
-	        if (cols == undefined || cols == null || cols == 0) {
-	            cols = 1;
-	        }
+	            //表头工具行
+	            var th$head;
+	            th$head = _react2.default.createElement(
+	                'tr',
+	                null,
+	                _react2.default.createElement(
+	                    'th',
+	                    { colSpan: 1,
+	                        style: this.state.align },
+	                    components
+	                )
+	            );
 	
-	        var ths;
-	        if (titles !== null && titles !== undefined && titles.length > 0) {
-	            var group = this.state.group;
-	            titles = titles.map(function (item, i) {
-	                if (group !== undefined && group !== null) {
-	                    if (group.property !== item) return _react2.default.createElement(
+	            return _react2.default.createElement(
+	                'table',
+	                { className: 'table table-bordered center', style: Object.assign(centerStyle, widthStyle) },
+	                _react2.default.createElement(
+	                    'thead',
+	                    null,
+	                    th$head
+	                ),
+	                _react2.default.createElement(
+	                    'tbody',
+	                    null,
+	                    _react2.default.createElement(
+	                        'tr',
+	                        null,
+	                        _react2.default.createElement('td', null)
+	                    )
+	                )
+	            );
+	        } else {
+	            //表格数据已初始化
+	
+	            var isLineNumberVisible = this.props.isLineNumberVisible;
+	            if (isLineNumberVisible === undefined || isLineNumberVisible === null) isLineNumberVisible = false;else isLineNumberVisible = true;
+	
+	            //tbody表头
+	            var titles;
+	            var ths;
+	            if (this.state.titles !== null && this.state.titles !== undefined && this.state.titles.length > 0) {
+	                var group = this.state.group;
+	                titles = new Array();
+	                this.state.titles.map(function (item, i) {
+	                    if (group !== undefined && group !== null && group.property !== undefined && group.property !== null) {
+	                        if (item != group.property) titles.push(_react2.default.createElement(
+	                            'th',
+	                            { key: i },
+	                            item
+	                        ));
+	                    } else titles.push(_react2.default.createElement(
 	                        'th',
 	                        { key: i },
 	                        item
-	                    );
-	                } else return _react2.default.createElement(
-	                    'th',
-	                    { key: i },
-	                    item
-	                );
-	            });
-	        }
-	        if (titles !== null && titles !== undefined && titles.length > 0) {
-	            if (this.state.checked !== undefined && this.state.checked !== null) {
-	                if (this.state.title$font$color !== undefined && this.state.title$font$color !== null) {
-	                    if (this.state.title$color !== undefined && this.state.title$color !== null) {
-	                        if (this.state.group !== undefined && this.state.group !== null) {
-	                            ths = _react2.default.createElement(
-	                                'tr',
-	                                { style: Object.assign(this.state.title$font$color, this.state.title$color) },
-	                                _react2.default.createElement(
-	                                    'th',
-	                                    null,
-	                                    this.state.group.property
-	                                ),
-	                                _react2.default.createElement(
-	                                    'th',
-	                                    null,
-	                                    '选择'
-	                                ),
-	                                titles
-	                            );
-	                        } else {
-	                            ths = _react2.default.createElement(
-	                                'tr',
-	                                { style: Object.assign(this.state.title$font$color, this.state.title$color) },
-	                                _react2.default.createElement(
-	                                    'th',
-	                                    null,
-	                                    '选择'
-	                                ),
-	                                titles
-	                            );
-	                        }
-	                    } else {
-	                        if (this.state.group !== undefined && this.state.group !== null) {
-	                            ths = _react2.default.createElement(
-	                                'tr',
-	                                { style: this.state.title$font$color },
-	                                _react2.default.createElement(
-	                                    'th',
-	                                    null,
-	                                    this.state.group.property
-	                                ),
-	                                ' ',
-	                                _react2.default.createElement(
-	                                    'th',
-	                                    null,
-	                                    '选择'
-	                                ),
-	                                titles
-	                            );
-	                        } else {
-	                            ths = _react2.default.createElement(
-	                                'tr',
-	                                { style: this.state.title$font$color },
-	                                _react2.default.createElement(
-	                                    'th',
-	                                    null,
-	                                    '选择'
-	                                ),
-	                                titles
-	                            );
-	                        }
-	                    }
-	                } else {
-	                    if (this.state.title$font$color !== undefined && this.state.title$font$color !== null) {
-	                        if (this.state.group !== undefined && this.state.group !== null) {
-	                            ths = _react2.default.createElement(
-	                                'tr',
-	                                { style: this.state.title$font$color },
-	                                _react2.default.createElement(
-	                                    'th',
-	                                    null,
-	                                    this.state.group.property
-	                                ),
-	                                _react2.default.createElement(
-	                                    'th',
-	                                    null,
-	                                    '选择'
-	                                ),
-	                                titles
-	                            );
-	                        } else {
-	                            ths = _react2.default.createElement(
-	                                'tr',
-	                                { style: this.state.title$font$color },
-	                                _react2.default.createElement(
-	                                    'th',
-	                                    null,
-	                                    '选择'
-	                                ),
-	                                titles
-	                            );
-	                        }
-	                    } else {
-	                        if (this.state.group !== undefined && this.state.group !== null) {
-	                            ths = _react2.default.createElement(
-	                                'tr',
-	                                null,
-	                                _react2.default.createElement(
-	                                    'th',
-	                                    null,
-	                                    this.state.group.property
-	                                ),
-	                                _react2.default.createElement(
-	                                    'th',
-	                                    null,
-	                                    '选择'
-	                                ),
-	                                titles
-	                            );
-	                        } else {
-	                            ths = _react2.default.createElement(
-	                                'tr',
-	                                null,
-	                                _react2.default.createElement(
-	                                    'th',
-	                                    null,
-	                                    '选择'
-	                                ),
-	                                titles
-	                            );
-	                        }
-	                    }
-	                }
-	            } else {
-	                if (this.state.group !== undefined && this.state.group !== null) {
-	                    ths = _react2.default.createElement(
-	                        'tr',
-	                        { style: Object.assign(this.state.title$font$color, this.state.title$color) },
-	                        _react2.default.createElement(
-	                            'th',
-	                            null,
-	                            this.state.group.property
-	                        ),
-	                        titles
-	                    );
-	                } else {
-	                    ths = _react2.default.createElement(
-	                        'tr',
-	                        { style: Object.assign(this.state.title$font$color, this.state.title$color) },
-	                        titles
-	                    );
-	                }
+	                    ));
+	                });
 	            }
-	        }
-	
-	        if (isLineNumberVisible === true) titles.splice(0, 0, "<th>#<th>");
-	        var multiEnable = this.state.multiEnable;
-	        var tdBasic = this.state.tdBasic;
-	
-	        var widths = this.state.widths;
-	
-	        //tr$color indicate the color in th in tbody
-	        var tr$color;
-	        //checked indicate whether checkbox should be placed in first column
-	        var checkedIndex;
-	        var checkCb;
-	        var checkButton;
-	        if (this.state.tr$color !== undefined && this.state.tr$color !== null) tr$color = this.state.tr$color;
-	        if (this.state.checked !== undefined && this.state.checked !== null) {
-	            checkedIndex = this.state.checkedIndex;
-	            checkCb = this.checkCb;
-	            checkButton = _react2.default.createElement(
-	                'tr',
-	                { className: 'un-render' },
-	                _react2.default.createElement(
-	                    'td',
-	                    { colSpan: cols + 1 },
-	                    _react2.default.createElement(_ButtonElement2.default, { type: 'button',
-	                        buttonClass: 'btn btn-default', title: this.state.checked.name,
-	                        handle: this.checkHandle
-	                    })
-	                )
-	            );
-	        }
-	
-	        //group field
-	        var group;
-	        var groupTypes;
-	        var groupFields;
-	        if (this.state.group !== undefined && this.state.group !== null) {
-	
-	            groupTypes = new Array();
-	            groupFields = new Array();
-	            var property = this.state.group.property;
-	            this.state.data.map(function (item, i) {
-	                if ($.inArray(item[property], groupTypes) == -1) //如果groupTypes未包含对应type
-	                    {
-	                        groupTypes.push(item[property]);
-	                        var json = {};
-	                        json["field"] = item[property];
-	                        json["count"] = 1;
-	                        groupFields.push(json);
-	                    } else {
-	                    groupFields.map(function (record, i) {
-	                        if (record["field"] == item[property]) {
-	                            record["count"]++;
+	            if (titles !== null && titles !== undefined && titles.length > 1) {
+	                if (this.state.checked !== undefined && this.state.checked !== null) {
+	                    if (this.state.group !== undefined && this.state.group !== null) {
+	                        //如果允许进行op操作
+	                        if (this.state.op !== undefined && this.state.op !== null) {
+	                            ths = _react2.default.createElement(
+	                                'tr',
+	                                { style: Object.assign(this.state.title$font$color, this.state.title$color) },
+	                                _react2.default.createElement(
+	                                    'th',
+	                                    null,
+	                                    this.state.group.property
+	                                ),
+	                                _react2.default.createElement(
+	                                    'th',
+	                                    null,
+	                                    '选择'
+	                                ),
+	                                titles,
+	                                _react2.default.createElement(
+	                                    'th',
+	                                    null,
+	                                    '操作'
+	                                )
+	                            );
+	                        } else {
+	                            //如果没有进行op操作
+	                            ths = _react2.default.createElement(
+	                                'tr',
+	                                { style: Object.assign(this.state.title$font$color, this.state.title$color) },
+	                                _react2.default.createElement(
+	                                    'th',
+	                                    null,
+	                                    this.state.group.property
+	                                ),
+	                                _react2.default.createElement(
+	                                    'th',
+	                                    null,
+	                                    '选择'
+	                                ),
+	                                titles
+	                            );
 	                        }
-	                    });
-	                }
-	            });
-	        }
-	
-	        var rows;
-	        if (this.state.data !== undefined && this.state.data !== null) {
-	            var checked = this.state.checked;
-	            var data = this.state.data;
-	            if (groupTypes !== null && groupTypes !== undefined && groupTypes.length > 0) {
-	                var rowIndex = 0;
-	                rows = new Array();
-	                var property = this.state.group.property;
-	                var preField = null;
-	
-	                groupTypes.map(function (field, i) {
-	                    var updateFlag = false;
-	
-	                    if (field !== preField) {
-	                        updateFlag = true;
-	                        preField = field;
+	                    } else {
+	                        ths = _react2.default.createElement(
+	                            'tr',
+	                            { style: Object.assign(this.state.title$font$color, this.state.title$color) },
+	                            _react2.default.createElement(
+	                                'th',
+	                                null,
+	                                '选择'
+	                            ),
+	                            titles
+	                        );
 	                    }
-	                    data.map(function (item, j) {
-	                        if (item[property] == field) {
-	                            var rowSpan;
-	                            if (updateFlag == true) {
-	                                rowSpan = 0;
-	                                groupFields.map(function (record, k) {
-	                                    if (record["field"] == field) rowSpan = record["count"];
-	                                });
-	                            }
-	
-	                            if (checkedIndex !== undefined && checkedIndex !== null && checkedIndex > -1 && checkedIndex == rowIndex) {
-	                                rows.push(_react2.default.createElement(_TrElement2.default, { 'tr-color': tr$color, tdBasic: tdBasic, rowData: item, rowIndex: rowIndex,
-	                                    multiEnable: multiEnable, isLineNumberVisible: isLineNumberVisible,
-	                                    widths: widths, key: rowIndex, checkCb: checkCb, insertCheck: true,
-	                                    checked: true, groupType: property, updateFlag: updateFlag,
-	                                    rowSpan: rowSpan }));
+	                } else {
+	                    //用户未设置checked选项
+	                    if (this.state.group !== undefined && this.state.group !== null) //用户设置了group
+	                        {
+	                            //如果允许进行op操作
+	                            if (this.state.op !== undefined && this.state.op !== null) {
+	                                ths = _react2.default.createElement(
+	                                    'tr',
+	                                    { style: Object.assign(this.state.title$font$color, this.state.title$color) },
+	                                    _react2.default.createElement(
+	                                        'th',
+	                                        null,
+	                                        this.state.group.property
+	                                    ),
+	                                    titles,
+	                                    _react2.default.createElement(
+	                                        'th',
+	                                        null,
+	                                        '操作'
+	                                    )
+	                                );
 	                            } else {
-	                                if (checked !== undefined && checked !== null) {
-	                                    rows.push(_react2.default.createElement(_TrElement2.default, { 'tr-color': tr$color, tdBasic: tdBasic, rowData: item, rowIndex: rowIndex,
-	                                        multiEnable: multiEnable, isLineNumberVisible: isLineNumberVisible,
-	                                        widths: widths, key: rowIndex, checkCb: checkCb,
-	                                        insertCheck: true, groupType: property, updateFlag: updateFlag,
-	                                        rowSpan: rowSpan }));
-	                                } else rows.push(_react2.default.createElement(_TrElement2.default, { 'tr-color': tr$color, tdBasic: tdBasic, rowData: item, rowIndex: rowIndex,
-	                                    multiEnable: multiEnable, isLineNumberVisible: isLineNumberVisible,
-	                                    widths: widths, key: rowIndex, groupType: property,
-	                                    updateFlag: updateFlag, rowSpan: rowSpan }));
+	                                //如果没有进行op操作
+	                                ths = _react2.default.createElement(
+	                                    'tr',
+	                                    { style: Object.assign(this.state.title$font$color, this.state.title$color) },
+	                                    _react2.default.createElement(
+	                                        'th',
+	                                        null,
+	                                        this.state.group.property
+	                                    ),
+	                                    titles
+	                                );
 	                            }
-	                            updateFlag = false;
-	                            rowIndex++;
+	                        } else {
+	                        //用户未设置group
+	                        //如果用户设置了op操作
+	                        if (this.state.op !== undefined && this.state.op !== null) {
+	                            ths = _react2.default.createElement(
+	                                'tr',
+	                                { style: Object.assign(this.state.title$font$color, this.state.title$color) },
+	                                titles,
+	                                _react2.default.createElement(
+	                                    'th',
+	                                    null,
+	                                    '操作'
+	                                )
+	                            );
+	                        } else {
+	                            ths = _react2.default.createElement(
+	                                'tr',
+	                                { style: Object.assign(this.state.title$font$color, this.state.title$color) },
+	                                titles
+	                            );
 	                        }
-	                    });
-	                });
-	            } else {
-	                rows = this.state.data.map(function (item, i) {
-	                    if (checkedIndex !== undefined && checkedIndex !== null && checkedIndex > -1 && checkedIndex == i) {
-	                        return _react2.default.createElement(_TrElement2.default, { 'tr-color': tr$color, tdBasic: tdBasic, rowData: item, rowIndex: i,
-	                            multiEnable: multiEnable, isLineNumberVisible: isLineNumberVisible,
-	                            widths: widths, key: i, checkCb: checkCb, insertCheck: true, checked: true });
-	                    } else {
-	                        if (checked !== undefined && checked !== null) {
-	                            return _react2.default.createElement(_TrElement2.default, { 'tr-color': tr$color, tdBasic: tdBasic, rowData: item, rowIndex: i,
-	                                multiEnable: multiEnable, isLineNumberVisible: isLineNumberVisible,
-	                                widths: widths, key: i, checkCb: checkCb, insertCheck: true });
-	                        } else return _react2.default.createElement(_TrElement2.default, { 'tr-color': tr$color, tdBasic: tdBasic, rowData: item, rowIndex: i,
-	                            multiEnable: multiEnable, isLineNumberVisible: isLineNumberVisible,
-	                            widths: widths, key: i });
 	                    }
-	                });
+	                }
 	            }
-	        } else {
-	            rows = _react2.default.createElement(_TrElement2.default, { 'tr-color': tr$color, tdBasic: tdBasic,
-	                multiEnable: multiEnable, isLineNumberVisible: isLineNumberVisible,
-	                widths: widths, checkCb: checkCb });
-	        }
 	
-	        var querycb = this.queryCallBack;
-	        var components;
-	        if (this.state.components !== undefined && this.state.components !== null) {
-	            components = this.state.components.map(function (item, i) {
-	                if (item.type == "query") //查询组件
-	                    {
-	                        return _react2.default.createElement(_ButtonElement2.default, { type: 'button',
-	                            buttonClass: 'btn btn-default', title: item.name,
-	                            query: item, handle: querycb, key: i });
-	                    }
-	                if (item.type == "dropdown") //下拉组件
-	                    {
-	                        var name = item.name;
-	                        return _react2.default.createElement(_DropDownButtonElement2.default, {
-	                            title: name,
-	                            params: item.params, key: i
+	            if (isLineNumberVisible === true) titles.splice(0, 0, "<th>#<th>");
+	            var multiEnable = this.state.multiEnable;
+	            var tdBasic = this.state.tdBasic;
+	
+	            var widths = this.state.widths;
+	
+	            //tr$color indicate the color in th in tbody
+	            var tr$color;
+	            var checkCb;
+	            var checkButton;
+	            if (this.state.tr$color !== undefined && this.state.tr$color !== null) tr$color = this.state.tr$color;
+	            var appendForOp = this.state.op !== undefined && this.state.op !== null ? 1 : 0;
+	            if (this.state.checked !== undefined && this.state.checked !== null) {
+	                checkCb = this.checkCb;
+	                checkButton = _react2.default.createElement(
+	                    'tr',
+	                    { className: 'un-render' },
+	                    _react2.default.createElement(
+	                        'td',
+	                        { colSpan: this.state.cols + 1 + appendForOp },
+	                        _react2.default.createElement(_ButtonElement2.default, { type: 'button',
+	                            buttonClass: 'btn btn-default', title: this.state.checked.name,
+	                            handle: this.checkHandle })
+	                    )
+	                );
+	            }
+	
+	            //group field
+	            var group;
+	            var groupTypes;
+	            var groupFields;
+	            //如果表格允许排序
+	            if (this.state.group !== undefined && this.state.group !== null) {
+	
+	                groupTypes = new Array();
+	                groupFields = new Array();
+	                var property = this.state.group.property;
+	                data.map(function (item, i) {
+	                    if ($.inArray(item[property], groupTypes) == -1) //如果groupTypes未包含对应type
+	                        {
+	                            groupTypes.push(item[property]);
+	                            var json = {};
+	                            json["field"] = item[property];
+	                            json["count"] = 1;
+	                            groupFields.push(json);
+	                        } else {
+	                        groupFields.map(function (record, i) {
+	                            if (record["field"] == item[property]) {
+	                                record["count"]++;
+	                            }
 	                        });
 	                    }
-	            });
-	        }
+	                });
+	            }
 	
-	        var th$head;
-	        if (this.state.checked !== undefined && this.state.checked !== null) {
-	            th$head = _react2.default.createElement(
-	                'tr',
-	                null,
-	                _react2.default.createElement(
-	                    'th',
-	                    { colSpan: cols + 1,
-	                        style: this.state.align },
-	                    components
-	                )
-	            );
-	        } else {
-	            th$head = _react2.default.createElement(
-	                'tr',
-	                null,
-	                _react2.default.createElement(
-	                    'th',
-	                    { colSpan: this.state.cols,
-	                        style: this.state.align },
-	                    components
-	                )
-	            );
-	        }
+	            //checked indicate whether checkbox should be placed in first column
+	            var checkedIndex;
+	            var rows;
 	
-	        var theadStyle = { textAlign: "center" };
-	        var title;
-	        if (this.state.title !== undefined && this.state.title !== null) {
-	            title = this.state.title;
-	        }
+	            if (data !== undefined && data !== null) {
+	                var checked = this.state.checked;
 	
-	        return _react2.default.createElement(
-	            'table',
-	            { className: 'table table-bordered center fu', style: Object.assign(centerStyle, widthStyle) },
-	            _react2.default.createElement(
-	                'thead',
-	                null,
-	                _react2.default.createElement(
+	                var multiCheck;
+	                //initial checkedIndex,this prop indicate which row had been checked
+	                if (checked !== undefined && checked !== null && checked !== false) {
+	                    checkedIndex = this.state.checkedIndex;
+	                    multiCheck = checked.multiCheck;
+	                }
+	
+	                //op如果不为空即视选项有效
+	                var op = this.state.op;
+	                //进行分组,根据groupTypes的值集合进行数据添加
+	                if (groupTypes !== null && groupTypes !== undefined && groupTypes.length > 0) {
+	                    var rowIndex = 0;
+	                    rows = new Array();
+	                    var property = this.state.group.property;
+	                    var preField = null;
+	                    var opHandle = this.opHandle;
+	
+	                    groupTypes.map(function (field, i) {
+	                        var updateFlag = false;
+	
+	                        if (field !== preField) {
+	                            updateFlag = true;
+	                            preField = field;
+	                        }
+	                        data.map(function (item, j) {
+	                            if (item[property] == field) {
+	                                var rowSpan;
+	                                if (updateFlag == true) {
+	                                    rowSpan = 0;
+	                                    groupFields.map(function (record, k) {
+	                                        if (record["field"] == field) rowSpan = record["count"];
+	                                    });
+	                                }
+	                                var opConfig;
+	                                if (op !== undefined && op !== null) {
+	                                    opConfig = {};
+	                                    opConfig.trend = op.trend;
+	                                    if (op.contract !== undefined && op.contract !== null) {
+	                                        opConfig.data = op.contract[j].data;
+	                                        opConfig.type = op.contract[j].type;
+	                                    }
+	                                }
+	                                console.log();
+	                                //如果当前存选中项
+	                                if (checkedIndex !== undefined && checkedIndex !== null && checkedIndex !== -1) {
+	                                    //允许多选
+	                                    if (multiCheck !== undefined && multiCheck !== null && multiCheck !== false) {
+	                                        if ($.inArray(rowIndex, checkedIndex) !== -1) //如果当前行选中
+	                                            {
+	                                                rows.push(_react2.default.createElement(_TrElement2.default, { 'tr-color': tr$color, tdBasic: tdBasic, rowData: item, rowIndex: rowIndex,
+	                                                    multiEnable: multiEnable, isLineNumberVisible: isLineNumberVisible,
+	                                                    widths: widths, key: rowIndex, checkCb: checkCb, insertCheck: true,
+	                                                    checked: true, groupType: property, updateFlag: updateFlag, 'data-index': j,
+	                                                    rowSpan: rowSpan, op: opConfig,
+	                                                    opHandle: opConfig !== undefined && opConfig !== null ? opHandle : null }));
+	                                            } else {
+	                                            rows.push(_react2.default.createElement(_TrElement2.default, { 'tr-color': tr$color, tdBasic: tdBasic, rowData: item, rowIndex: rowIndex,
+	                                                multiEnable: multiEnable, isLineNumberVisible: isLineNumberVisible,
+	                                                widths: widths, key: rowIndex, checkCb: checkCb, insertCheck: true,
+	                                                groupType: property, updateFlag: updateFlag,
+	                                                rowSpan: rowSpan, 'data-index': j, op: opConfig,
+	                                                opHandle: opConfig !== undefined && opConfig !== null ? opHandle : null }));
+	                                        }
+	                                    } else {
+	                                        //只允许单选
+	                                        if (checkedIndex > -1 && checkedIndex == rowIndex) rows.push(_react2.default.createElement(_TrElement2.default, { 'tr-color': tr$color, tdBasic: tdBasic, rowData: item, rowIndex: rowIndex,
+	                                            multiEnable: multiEnable, isLineNumberVisible: isLineNumberVisible,
+	                                            widths: widths, key: rowIndex, checkCb: checkCb, insertCheck: true,
+	                                            checked: true, groupType: property, updateFlag: updateFlag,
+	                                            rowSpan: rowSpan, 'data-index': j, op: opConfig,
+	                                            opHandle: opConfig !== undefined && opConfig !== null ? opHandle : null }));
+	                                    }
+	                                } else {
+	                                    //如果当前不存在选中项
+	                                    if (checked !== undefined && checked !== null) {
+	                                        rows.push(_react2.default.createElement(_TrElement2.default, { 'tr-color': tr$color, tdBasic: tdBasic, rowData: item, rowIndex: rowIndex,
+	                                            multiEnable: multiEnable, isLineNumberVisible: isLineNumberVisible,
+	                                            widths: widths, key: rowIndex, checkCb: checkCb,
+	                                            insertCheck: true, groupType: property, updateFlag: updateFlag,
+	                                            rowSpan: rowSpan, 'data-index': j, op: opConfig,
+	                                            opHandle: opConfig !== undefined && opConfig !== null ? opHandle : null }));
+	                                    } else rows.push(_react2.default.createElement(_TrElement2.default, { 'tr-color': tr$color, tdBasic: tdBasic, rowData: item, rowIndex: rowIndex,
+	                                        multiEnable: multiEnable, isLineNumberVisible: isLineNumberVisible,
+	                                        widths: widths, key: rowIndex, groupType: property, 'data-index': j,
+	                                        updateFlag: updateFlag, rowSpan: rowSpan, op: opConfig,
+	                                        opHandle: opConfig !== undefined && opConfig !== null ? opHandle : null }));
+	                                }
+	                                updateFlag = false;
+	                                rowIndex++;
+	                            }
+	                        });
+	                    });
+	                } else {
+	                    //如果不进行分组,则行号与该行数据所在data的下标是一致的
+	                    var opHandle = this.opHandle;
+	                    rows = data.map(function (item, i) {
+	                        var opConfig;
+	                        if (op !== undefined && op !== null) {
+	                            opConfig = {};
+	                            opConfig.type = op.type;
+	                            if (op.contract !== undefined && op.contract !== null) opConfig.contract = op.contract[i];
+	                        }
+	                        if (checkedIndex !== undefined && checkedIndex !== null) {
+	                            if (multiCheck !== undefined && multiCheck !== null && multiCheck !== false) {
+	                                if ($.inArray(i, checkedIndex) !== -1) {
+	                                    return _react2.default.createElement(_TrElement2.default, { 'tr-color': tr$color, tdBasic: tdBasic, rowData: item, rowIndex: i,
+	                                        multiEnable: multiEnable, isLineNumberVisible: isLineNumberVisible,
+	                                        widths: widths, key: i, checkCb: checkCb,
+	                                        insertCheck: true, checked: true, op: opConfig,
+	                                        opHandle: opConfig !== undefined && opConfig !== null ? opHandle : null });
+	                                } else {
+	                                    return _react2.default.createElement(_TrElement2.default, { 'tr-color': tr$color, tdBasic: tdBasic, rowData: item, rowIndex: i,
+	                                        multiEnable: multiEnable, isLineNumberVisible: isLineNumberVisible,
+	                                        widths: widths, key: i, checkCb: checkCb,
+	                                        insertCheck: true, op: opConfig,
+	                                        opHandle: opConfig !== undefined && opConfig !== null ? opHandle : null });
+	                                }
+	                            } else {
+	                                if (checkedIndex > -1 && checkedIndex == i) return _react2.default.createElement(_TrElement2.default, { 'tr-color': tr$color, tdBasic: tdBasic, rowData: item, rowIndex: i,
+	                                    multiEnable: multiEnable, isLineNumberVisible: isLineNumberVisible,
+	                                    widths: widths, key: i, checkCb: checkCb,
+	                                    insertCheck: true, checked: true, op: opConfig,
+	                                    opHandle: opConfig !== undefined && opConfig !== null ? opHandle : null });else return _react2.default.createElement(_TrElement2.default, { 'tr-color': tr$color, tdBasic: tdBasic, rowData: item, rowIndex: i,
+	                                    multiEnable: multiEnable, isLineNumberVisible: isLineNumberVisible,
+	                                    widths: widths, key: i, checkCb: checkCb,
+	                                    insertCheck: true, op: opConfig,
+	                                    opHandle: opConfig !== undefined && opConfig !== null ? opHandle : null });
+	                            }
+	                        } else {
+	                            if (checked !== undefined && checked !== null) {
+	                                return _react2.default.createElement(_TrElement2.default, { 'tr-color': tr$color, tdBasic: tdBasic, rowData: item, rowIndex: i,
+	                                    multiEnable: multiEnable, isLineNumberVisible: isLineNumberVisible,
+	                                    widths: widths, key: i, checkCb: checkCb, insertCheck: true, op: opConfig,
+	                                    opHandle: opConfig !== undefined && opConfig !== null ? opHandle : null });
+	                            } else return _react2.default.createElement(_TrElement2.default, { 'tr-color': tr$color, tdBasic: tdBasic, rowData: item, rowIndex: i,
+	                                multiEnable: multiEnable, isLineNumberVisible: isLineNumberVisible,
+	                                widths: widths, key: i, op: opConfig,
+	                                opHandle: opConfig !== undefined && opConfig !== null ? opHandle : null });
+	                        }
+	                    });
+	                }
+	            } else {
+	                rows = _react2.default.createElement(_TrElement2.default, { 'tr-color': tr$color, tdBasic: tdBasic,
+	                    multiEnable: multiEnable, isLineNumberVisible: isLineNumberVisible,
+	                    widths: widths, checkCb: checkCb, op: op,
+	                    opHandle: op !== undefined && op !== null ? opHandle : null });
+	            }
+	
+	            var querycb = this.queryCallBack;
+	            var components;
+	            if (this.state.components !== undefined && this.state.components !== null) {
+	
+	                var queryHandle = this.queryHandle;
+	                var queryExist = false;
+	                var queryType;
+	                //广播事件的命名以publish的type属性为标准
+	                var publish;
+	                var broadcastCount = 0;
+	                this.state.components.map(function (item, i) {
+	                    if (item.type == "query") {
+	                        if (queryExist == false) {
+	                            queryExist = true;
+	                            var type = 'query' + item.id;
+	                            var feedbackType = 'feedback' + item.id;
+	                            var feedback = { type: feedbackType };
+	                            publish = { cb: queryHandle, type: type,
+	                                feedback: feedback };
+	                        } else throw "query component duplicate!";
+	                    } else {
+	                        if (item.type == "dropdown") {
+	                            broadcastCount++;
+	                        } else if (item.type == "input") {
+	                            broadcastCount++;
+	                        }
+	                    }
+	                });
+	                publish.broadcastCount = broadcastCount;
+	
+	                components = this.state.components.map(function (item, i) {
+	                    if (item.type == "query") //查询组件
+	                        {
+	
+	                            return _react2.default.createElement(_ButtonElement2.default, { type: 'button',
+	                                buttonClass: 'btn btn-default', title: item.name,
+	                                query: item, handle: querycb, key: i,
+	                                publish: publish });
+	                        }
+	                    if (item.type == "dropdown") //下拉组件
+	                        {
+	                            var subscribe;
+	                            if (queryExist == true) {
+	                                var emit = function emit() {
+	                                    var selectedIndex = this.state.selectedIndex;
+	                                    var content;
+	                                    if (selectedIndex !== undefined && selectedIndex !== null) {
+	                                        content = data[selectedIndex]['value'];
+	                                    } else content = null;
+	                                    var record = { id: this.props.id, content: content };
+	                                    _TodoStore2.default.emit(publish.feedback.type, record);
+	                                };
+	                                subscribe = [{ type: publish.type, callback: emit }];
+	                            }
+	                            return _react2.default.createElement(_DropDownButtonElement2.default, {
+	                                title: item.name,
+	                                data: item.data, key: i,
+	                                id: item.id,
+	                                subscribe: subscribe
+	                            });
+	                        }
+	                    if (item.type == "input") //输入框组件
+	                        {
+	                            var subscribe;
+	                            if (queryExist == true) {
+	                                var emit = function emit() {
+	                                    var record = { id: this.props.id, content: this.state.content };
+	                                    _TodoStore2.default.emit(publish.feedback.type, record);
+	                                };
+	                                subscribe = [{ type: publish.type, callback: emit }];
+	                            }
+	                            return _react2.default.createElement(_InputElement2.default, {
+	                                type: 'text',
+	                                placeholder: 'Search',
+	                                id: item.id,
+	                                className: 'inline',
+	                                subscribe: subscribe,
+	                                key: i });
+	                        }
+	                });
+	            }
+	
+	            //标题
+	            var title;
+	            if (this.props["data-options"].title !== undefined && this.props["data-options"].title !== null) {
+	                if (this.state.checked !== undefined && this.state.checked !== null) {
+	
+	                    title = _react2.default.createElement(
+	                        'tr',
+	                        null,
+	                        _react2.default.createElement(
+	                            'th',
+	                            { colSpan: this.state.cols + 1 + appendForOp,
+	                                style: this.state.align },
+	                            this.props["data-options"].title
+	                        )
+	                    );
+	                } else {
+	                    title = _react2.default.createElement(
+	                        'tr',
+	                        null,
+	                        _react2.default.createElement(
+	                            'th',
+	                            { colSpan: this.state.cols + appendForOp,
+	                                style: this.state.align },
+	                            this.props["data-options"].title
+	                        )
+	                    );
+	                }
+	            }
+	
+	            var th$head;
+	            if (this.state.checked !== undefined && this.state.checked !== null) {
+	
+	                th$head = _react2.default.createElement(
 	                    'tr',
 	                    null,
 	                    _react2.default.createElement(
 	                        'th',
-	                        { colSpan: this.state.checked !== undefined && this.state.checked !== null ? cols + 1 : cols, style: theadStyle },
-	                        title
+	                        { colSpan: this.state.cols + 1 + appendForOp,
+	                            style: this.state.align },
+	                        components
 	                    )
+	                );
+	            } else {
+	                th$head = _react2.default.createElement(
+	                    'tr',
+	                    null,
+	                    _react2.default.createElement(
+	                        'th',
+	                        { colSpan: this.state.cols + appendForOp,
+	                            style: this.state.align },
+	                        components
+	                    )
+	                );
+	            }
+	
+	            return _react2.default.createElement(
+	                'table',
+	                { className: 'table table-bordered center', style: Object.assign(centerStyle, widthStyle) },
+	                _react2.default.createElement(
+	                    'thead',
+	                    null,
+	                    title,
+	                    th$head
 	                ),
-	                th$head
-	            ),
-	            _react2.default.createElement(
-	                'tbody',
-	                null,
-	                ths,
-	                rows,
-	                checkButton
-	            )
-	        );
+	                _react2.default.createElement(
+	                    'tbody',
+	                    null,
+	                    ths,
+	                    rows,
+	                    checkButton
+	                )
+	            );
+	        } //match to data$initialed===true
 	    }
 	});
 	
@@ -20968,7 +21358,7 @@
 	
 	var _TdWrapper2 = _interopRequireDefault(_TdWrapper);
 	
-	var _CheckBoxElement = __webpack_require__(168);
+	var _CheckBoxElement = __webpack_require__(179);
 	
 	var _CheckBoxElement2 = _interopRequireDefault(_CheckBoxElement);
 	
@@ -20984,10 +21374,20 @@
 	var TrElement = _react2.default.createClass({
 	    displayName: 'TrElement',
 	
-	    clickCb: function clickCb(evt) {
-	        var target = evt.target;
-	        if (this.props.clickCb !== undefined && this.props.clickCb !== null) {
-	            this.props.clickCb(this.props.rowIndex);
+	    checkCb: function checkCb(ob) {
+	        if (this.props.checkCb !== undefined && this.props.checkCb !== null) {
+	            if (this.props["data-index"] !== undefined && this.props["data-index"] !== null) {
+	                var ob = { rowIndex: this.props.rowIndex, index: this.props["data-index"] };
+	                this.props.checkCb(ob);
+	            } else this.props.checkCb(ob);
+	        }
+	    },
+	    opHandle: function opHandle(ob) {
+	        var content = ob;
+	        if (this.props.opHandle !== undefined && this.props.opHandle !== null) {
+	            var rowIndex = this.props.rowIndex;
+	            var data$index = this.props["data-index"];
+	            this.props.opHandle({ rowIndex: rowIndex, "data-index": data$index, content: content });
 	        }
 	    },
 	    render: function render() {
@@ -21016,13 +21416,13 @@
 	            var updateFlag = this.props.updateFlag;
 	            for (var field in rowData) {
 	                var width = null;
-	                if (widths !== null && widths !== undefined && widths !== false && index < widths.length) width = widths[index];
+	                if (widths !== false && widths !== undefined && widths !== null && index < widths.length) width = widths[index];
 	                var item = rowData[field];
 	                if (item === false || item === true) item = "" + item;
 	                //exclude the group field
 	                if (groupType !== null && groupType !== undefined && groupType == field) {
 	                    if (updateFlag !== undefined && updateFlag !== null && updateFlag == true) tgroups.push(_react2.default.createElement(_TdWrapper2.default, { width: width, tdBasic: tdBasic,
-	                        tdData: item, multiEnable: multiEnable, key: index++, rowSpan: rowSpan }));
+	                        updateFlag: true, tdData: item, multiEnable: multiEnable, key: index++, rowSpan: rowSpan }));
 	                } else {
 	                    tds.push(_react2.default.createElement(_TdWrapper2.default, { width: width, tdBasic: tdBasic,
 	                        tdData: item, multiEnable: multiEnable, key: index++ }));
@@ -21033,10 +21433,19 @@
 	                multiEnable: multiEnable });
 	        }
 	
+	        //op$ele,
+	        //if parent component has pass op down,he op$ele will store the infomation
+	        var op$ele;
+	        if (this.props.op !== undefined && this.props.op !== null) {
+	            op$ele = _react2.default.createElement(_TdWrapper2.default, { tdBasic: "op", op: this.props.op,
+	                multiEnable: 1, opHandle: this.opHandle });
+	        }
+	
 	        var tr$color;
 	        if (this.props["tr-color"] !== undefined && this.props["tr-color"] !== null) {
 	            tr$color = { backgroundColor: this.props["tr-color"] };
 	        }
+	        //是否需要显示序号
 	        if (isLineNumberVisible === true) {
 	            if (this.props.insertCheck === true) {
 	                if (this.props.groupType !== undefined && this.props.groupType !== null) {
@@ -21047,14 +21456,15 @@
 	                        _react2.default.createElement(
 	                            'td',
 	                            null,
-	                            _react2.default.createElement(_CheckBoxElement2.default, { 'data-index': this.props.rowIndex, checkCb: this.props.checkCb, checked: this.props.checked })
+	                            _react2.default.createElement(_CheckBoxElement2.default, { 'data-index': this.props.rowIndex, checkCb: this.checkCb, checked: this.props.checked })
 	                        ),
 	                        _react2.default.createElement(
 	                            'td',
 	                            null,
 	                            this.props.rowIndex
 	                        ),
-	                        tds
+	                        tds,
+	                        op$ele
 	                    );
 	                } else {
 	                    return _react2.default.createElement(
@@ -21063,14 +21473,15 @@
 	                        _react2.default.createElement(
 	                            'td',
 	                            null,
-	                            _react2.default.createElement(_CheckBoxElement2.default, { 'data-index': this.props.rowIndex, checkCb: this.props.checkCb, checked: this.props.checked })
+	                            _react2.default.createElement(_CheckBoxElement2.default, { 'data-index': this.props.rowIndex, checkCb: this.checkCb, checked: this.props.checked })
 	                        ),
 	                        _react2.default.createElement(
 	                            'td',
 	                            null,
 	                            this.props.rowIndex
 	                        ),
-	                        tds
+	                        tds,
+	                        op$ele
 	                    );
 	                }
 	            } else {
@@ -21084,7 +21495,8 @@
 	                            null,
 	                            this.props.rowIndex
 	                        ),
-	                        tds
+	                        tds,
+	                        op$ele
 	                    );
 	                } else {
 	                    return _react2.default.createElement(
@@ -21095,7 +21507,8 @@
 	                            null,
 	                            this.props.rowIndex
 	                        ),
-	                        tds
+	                        tds,
+	                        op$ele
 	                    );
 	                }
 	            }
@@ -21109,9 +21522,10 @@
 	                        _react2.default.createElement(
 	                            'td',
 	                            null,
-	                            _react2.default.createElement(_CheckBoxElement2.default, { 'data-index': this.props.rowIndex, checkCb: this.props.checkCb, checked: this.props.checked })
+	                            _react2.default.createElement(_CheckBoxElement2.default, { 'data-index': this.props.rowIndex, checkCb: this.checkCb, checked: this.props.checked })
 	                        ),
-	                        tds
+	                        tds,
+	                        op$ele
 	                    );
 	                } else {
 	                    return _react2.default.createElement(
@@ -21120,9 +21534,10 @@
 	                        _react2.default.createElement(
 	                            'td',
 	                            null,
-	                            _react2.default.createElement(_CheckBoxElement2.default, { 'data-index': this.props.rowIndex, checkCb: this.props.checkCb, checked: this.props.checked })
+	                            _react2.default.createElement(_CheckBoxElement2.default, { 'data-index': this.props.rowIndex, checkCb: this.checkCb, checked: this.props.checked })
 	                        ),
-	                        tds
+	                        tds,
+	                        op$ele
 	                    );
 	                }
 	            } else {
@@ -21130,7 +21545,8 @@
 	                    'tr',
 	                    { style: tr$color },
 	                    tgroups,
-	                    tds
+	                    tds,
+	                    op$ele
 	                );
 	            }
 	        }
@@ -21156,6 +21572,10 @@
 	
 	var _TdBasicElement2 = _interopRequireDefault(_TdBasicElement);
 	
+	var _TdOpElement = __webpack_require__(168);
+	
+	var _TdOpElement2 = _interopRequireDefault(_TdOpElement);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	/**
@@ -21177,8 +21597,13 @@
 	    render: function render() {
 	        var multiEnable = this.props.multiEnable;
 	        if (multiEnable === 1 || multiEnable === false) {
-	            if (this.props.tdBasic === true) return _react2.default.createElement(_TdBasicElement2.default, { width: this.props.width,
-	                clickHandler: this.clickHandler, tdData: this.props.tdData, rowSpan: this.props.rowSpan });else {
+	            if (this.props.tdBasic === true) return _react2.default.createElement(_TdBasicElement2.default, { width: this.props.width, updateFlag: this.props.updateFlag,
+	                clickHandler: this.clickHandler, tdData: this.props.tdData, rowSpan: this.props.rowSpan });else if (this.props.tdBasic == "op") {
+	                return _react2.default.createElement(_TdOpElement2.default, { width: this.props.width,
+	                    opHandle: this.props.opHandle,
+	                    op: this.props.op
+	                });
+	            } else {
 	                return _react2.default.createElement('td', null);
 	            }
 	        } else {
@@ -21214,18 +21639,40 @@
 	    },
 	    render: function render() {
 	        var data = this.props.tdData;
-	        if (this.props.width !== undefined && this.props.width !== null) return _react2.default.createElement(
-	            'td',
-	            { rowSpan: this.props.rowSpan !== undefined && this.props.rowSpan !== null ? this.props.rowSpan : 1, colSpan: 1, width: this.props.width,
-	                onClick: this.clickHandler },
-	            data
-	        );else {
-	            return _react2.default.createElement(
-	                'td',
-	                { rowSpan: this.props.rowSpan !== undefined && this.props.rowSpan !== null ? this.props.rowSpan : 1, colSpan: 1,
-	                    onClick: this.clickHandler, className: 'microsoft-font' },
-	                data
-	            );
+	        var groupStyle = { verticalAlign: "middle" };
+	        if (this.props.width !== undefined && this.props.width !== null) {
+	            if (this.props.updateFlag == true) {
+	                return _react2.default.createElement(
+	                    'td',
+	                    { rowSpan: this.props.rowSpan !== undefined && this.props.rowSpan !== null ? this.props.rowSpan : 1,
+	                        colSpan: 1, width: this.props.width, className: 'un-render',
+	                        onClick: this.clickHandler, style: groupStyle },
+	                    data
+	                );
+	            } else {
+	                return _react2.default.createElement(
+	                    'td',
+	                    { rowSpan: this.props.rowSpan !== undefined && this.props.rowSpan !== null ? this.props.rowSpan : 1, colSpan: 1, width: this.props.width,
+	                        onClick: this.clickHandler },
+	                    data
+	                );
+	            }
+	        } else {
+	            if (this.props.updateFlag == true) {
+	                return _react2.default.createElement(
+	                    'td',
+	                    { rowSpan: this.props.rowSpan !== undefined && this.props.rowSpan !== null ? this.props.rowSpan : 1, colSpan: 1,
+	                        onClick: this.clickHandler, className: 'microsoft-font un-render', style: groupStyle },
+	                    data
+	                );
+	            } else {
+	                return _react2.default.createElement(
+	                    'td',
+	                    { rowSpan: this.props.rowSpan !== undefined && this.props.rowSpan !== null ? this.props.rowSpan : 1, colSpan: 1,
+	                        onClick: this.clickHandler, className: 'microsoft-font' },
+	                    data
+	                );
+	            }
 	        }
 	    }
 	});
@@ -21266,7 +21713,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".microsoft-font{\n    font-family:  Microsoft YaHei,lucida, verdana, arial, sans-serif;\n    vertical-align: bottom;\n}", ""]);
+	exports.push([module.id, ".microsoft-font{\r\n    font-family:  Microsoft YaHei,lucida, verdana, arial, sans-serif;\r\n    vertical-align: bottom;\r\n}\r\n", ""]);
 	
 	// exports
 
@@ -21584,7 +22031,7 @@
 /* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -21594,170 +22041,121 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	__webpack_require__(169);
+	
+	var _ContractElement = __webpack_require__(171);
+	
+	var _ContractElement2 = _interopRequireDefault(_ContractElement);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var CheckBoxElement = _react2.default.createClass({
-	    displayName: "CheckBoxElement",
+	var TdOpElement = _react2.default.createClass({
+	    displayName: 'TdOpElement',
 	
-	    clickCb: function clickCb(evt) {
-	        var target = evt.target;
-	        if ($(target).attr("data-index") !== null && $(target).attr("data-index") !== undefined) {
-	            var index = $(target).attr("data-index");
-	            if (!isNaN(parseInt(index))) this.props.checkCb(index);
+	    checkHandle: function checkHandle() {
+	        if (this.state.data !== undefined && this.state.data !== null && this.state.data.length > 1) {
+	            this.setState({ contractStatus: true });
+	        } else {
+	            this.props.opHandle(this.state.data);
 	        }
 	    },
+	    opHandle: function opHandle(ob) {
+	        if (ob !== undefined && ob !== null) {
+	            this.setState({ contractStatus: false });
+	            this.props.opHandle(ob);
+	        } else this.setState({ contractStatus: false });
+	    },
+	    getInitialState: function getInitialState() {
+	        var data;
+	        var op;
+	        if (this.props.op !== undefined && this.props.op !== null) {
+	            op = this.props.op;
+	            if (op.data !== undefined && op.data !== null) data = op.data;
+	        }
+	        return { contractStatus: false, op: op, data: data };
+	    },
 	    render: function render() {
-	        if (this.props.checked === true) return _react2.default.createElement("input", { type: "checkbox", "aria-label": "...",
-	            value: this.props.value, onChange: this.clickCb, checked: "checked", "data-index": this.props["data-index"] });else return _react2.default.createElement("input", { type: "checkbox", "aria-label": "...",
-	            value: this.props.value, onChange: this.clickCb, "data-index": this.props["data-index"] });
+	        var op = this.state.op;
+	        if (op.trend !== undefined && op.trend !== null) {
+	            var img$src;
+	            if (op.trend == "add") img$src = "../bootstrap/img/icon/add_0.png";else img$src = "../bootstrap/img/icon/delete_0.png";
+	            //契约组件初始化
+	            var contract;
+	            if (op.data !== undefined && op.data !== null) contract = _react2.default.createElement(_ContractElement2.default, { contract: op.data, type: op.type, opHandle: this.opHandle });
+	
+	            //显示增加或者删除图标
+	            if (this.state.contractStatus == false) {
+	                return _react2.default.createElement(
+	                    'td',
+	                    { rowSpan: 1, colSpan: 1,
+	                        width: this.props.width !== undefined && this.props.width !== null ? this.props.width : null,
+	                        className: 'microsoft-font' },
+	                    _react2.default.createElement(
+	                        'i',
+	                        null,
+	                        _react2.default.createElement('img', { src: img$src, onClick: this.checkHandle })
+	                    )
+	                );
+	            } else {
+	                //显示Contract组件
+	                return _react2.default.createElement(
+	                    'td',
+	                    { rowSpan: 1, colSpan: 1,
+	                        width: this.props.width !== undefined && this.props.width !== null ? this.props.width : null,
+	                        className: 'microsoft-font' },
+	                    contract
+	                );
+	            }
+	        } else {
+	            return _react2.default.createElement('td', { rowSpan: 1, colSpan: 1,
+	                width: this.props.width !== undefined && this.props.width !== null ? this.props.width : null,
+	                onClick: this.opHandle, className: 'microsoft-font' });
+	        }
 	    }
+	
 	});
 	
-	exports.default = CheckBoxElement;
+	exports.default = TdOpElement;
 
 /***/ },
 /* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _react = __webpack_require__(2);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var ButtonElement = _react2.default.createClass({
-	    displayName: 'ButtonElement',
-	
-	    clickCb: function clickCb(evt) {
-	        if (this.props.query !== undefined && this.props.query !== null) {
-	            if (this.props.query.params !== undefined && this.props.query.params !== undefined) {
-	                $.ajax({
-	                    type: 'POST',
-	                    url: this.props.query.url,
-	                    dataType: 'json',
-	                    data: this.props.query.params,
-	                    cache: false,
-	                    success: function (data) {
-	                        console.log();
-	                        console.log();
-	                        if (this.props.handle !== null && this.props.handle !== undefined) this.props.handle(data);
-	                    }.bind(this),
-	                    error: function error(xhr, status, err) {
-	                        if (xhr.readyStatus === 4) {
-	                            if (xhr.responseText !== undefined && xht.responseText !== null) {
-	                                var reg = /Cannot GET \/gradms\/authmsg.jsp/g;
-	                                if (reg.test(xhr.responseText) == true) {
-	                                    //TODO:relogin to gradms
-	
-	                                }
-	                            }
-	                        }
-	                        console.error(this.props.url, status, err.toString());
-	                    }
-	                });
-	            }
-	        } else {
-	            this.props.handle(evt);
-	        }
-	    },
-	    render: function render() {
-	        var marginStyle = {
-	            marginRight: "20px"
-	        };
-	
-	        var buttonClass;
-	        if (this.props.buttonClass !== undefined && this.props.buttonClass !== null) buttonClass = this.props.buttonClass;
-	        var title;
-	        if (this.props.title !== null && this.props.title !== undefined) title = this.props.title;
-	        var data_toggle;
-	        if (this.props["data-toggle"] !== null && this.props["data-toggle"] !== undefined) data_toggle = this.props["data-toggle"];
-	        var arial_hasPopup;
-	        if (this.props["aria-haspopup"] !== null && this.props["aria-haspopup"] !== undefined) arial_hasPopup = this.props["aria-haspopup"];
-	        var aria_expanded;
-	        if (this.props["aria-expanded"] !== null && this.props["aria-expanded"] !== undefined) aria_expanded = this.props["aria-expanded"];
-	        return _react2.default.createElement(
-	            'button',
-	            { type: this.props.type, className: buttonClass, onClick: this.clickCb,
-	                style: marginStyle, 'data-toggle': data_toggle, 'aria-expanded': aria_expanded },
-	            title,
-	            this.props.children
-	        );
-	    }
-	});
-	
-	exports.default = ButtonElement;
+	// load the styles
+	var content = __webpack_require__(170);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(167)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(true) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept(170, function() {
+				var newContent = __webpack_require__(170);
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
 
 /***/ },
 /* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _react = __webpack_require__(2);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _ButtonElement = __webpack_require__(169);
-	
-	var _ButtonElement2 = _interopRequireDefault(_ButtonElement);
-	
-	var _MenuLinkElement = __webpack_require__(171);
-	
-	var _MenuLinkElement2 = _interopRequireDefault(_MenuLinkElement);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	/**
-	 * @property,title
-	 * @property,data{link,content}
-	 *
-	 */
-	
-	var DropDownButtonElement = _react2.default.createClass({
-	    displayName: 'DropDownButtonElement',
+	exports = module.exports = __webpack_require__(166)();
+	// imports
 	
 	
-	    getInitialState: function getInitialState() {
-	        var data = this.props.params;
-	        if (data === undefined || data === null || data.length < 1) throw "DropDown data is null";
-	        return { menus: data };
-	    },
-	    render: function render() {
+	// module
+	exports.push([module.id, "td.microsoft-font.add{\r\n\r\n}\r\ntd.microsoft-font.delete{\r\n\r\n}", ""]);
 	
-	        var t_menu = this.state.menus.map(function (item, i) {
-	            return _react2.default.createElement(_MenuLinkElement2.default, { link: item.link, content: item.title, key: i });
-	        });
-	
-	        return _react2.default.createElement(
-	            'div',
-	            { className: 'btn-group' },
-	            _react2.default.createElement(
-	                _ButtonElement2.default,
-	                { type: 'button', buttonClass: 'btn btn-default dropdown-toggle',
-	                    'data-toggle': 'dropdown', 'aria-haspopup': 'true',
-	                    'aria-expanded': 'false', title: this.props.title },
-	                _react2.default.createElement('span', { className: 'caret' })
-	            ),
-	            _react2.default.createElement(
-	                'ul',
-	                { className: 'dropdown-menu' },
-	                t_menu
-	            )
-	        );
-	    }
-	});
-	
-	exports.default = DropDownButtonElement;
+	// exports
+
 
 /***/ },
 /* 171 */
@@ -21773,26 +22171,91 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _ListElement = __webpack_require__(172);
+	
+	var _ListElement2 = _interopRequireDefault(_ListElement);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var MenuLinkElement = _react2.default.createClass({
-	    displayName: 'MenuLinkElement',
+	var ContractElement = _react2.default.createClass({
+	    displayName: 'ContractElement',
 	
+	    applyHandle: function applyHandle(ob) {
+	        if (ob !== undefined && ob !== null) {
+	            if (this.props.type == 'text') //当契约为文本类型时,认定用户就文本型列表进行选择
+	                {
+	                    var index = ob.index;
+	                    var record = this.state.contract[index];
+	                    //将记录回传
+	                    if (this.props.opHandle !== undefined && this.props.opHandle !== null) this.props.opHandle(record);
+	                }
+	        }
+	    },
+	    cancelHandle: function cancelHandle() {
+	        if (this.props.opHandle !== undefined && this.props.opHandle !== null) this.props.opHandle();
+	    },
+	    getInitialState: function getInitialState() {
+	
+	        var contract;
+	        if (this.props.contract !== undefined && this.props.contract !== null) {
+	            contract = this.props.contract;
+	        }
+	        var type;
+	        if (this.props.type !== undefined && this.props.type !== null && this.props.type !== "none") type = this.props.type;
+	        return { contract: contract, type: type };
+	    },
 	
 	    render: function render() {
-	        return _react2.default.createElement(
-	            'li',
-	            null,
-	            _react2.default.createElement(
-	                'a',
-	                { href: this.props.link },
-	                this.props.content
-	            )
-	        );
+	        if (this.state.type !== undefined && this.state.type !== null) {
+	            if (this.state.type == 'text') {
+	                //如果契约类没有数据
+	                if (this.state.contract == undefined || this.state.contract == null) {
+	                    return _react2.default.createElement(
+	                        'div',
+	                        null,
+	                        _react2.default.createElement(
+	                            'button',
+	                            { className: 'btn btn-default', onClick: this.props.opHandle },
+	                            '返回'
+	                        )
+	                    );
+	                }
+	                var components = [{ type: "apply", name: "添加" }, { type: "cancel", name: "返回" }];
+	                var list = new Array();
+	                this.state.contract.map(function (item, i) {
+	                    var content = "";
+	                    for (var field in item) {
+	                        content += field + ":" + item[field] + "\n";
+	                    }
+	                    list.push(content);
+	                });
+	
+	                var data$options = {
+	                    components: components,
+	                    params: list
+	                };
+	                return _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    _react2.default.createElement(_ListElement2.default, { 'data-options': data$options, applyCb: this.applyHandle,
+	                        cancelCb: this.cancelHandle })
+	                );
+	            }
+	        } else {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    'button',
+	                    { className: 'btn btn-default', onClick: this.props.opHandle },
+	                    '返回'
+	                )
+	            );
+	        }
 	    }
 	});
 	
-	exports.default = MenuLinkElement;
+	exports.default = ContractElement;
 
 /***/ },
 /* 172 */
@@ -21808,99 +22271,25 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var ComboBox = _react2.default.createClass({
-	    displayName: 'ComboBox',
-	
-	
-	    render: function render() {
-	        return _react2.default.createElement(
-	            'span',
-	            null,
-	            'fuck u'
-	        );
-	    }
-	});
-	
-	exports.default = ComboBox;
-
-/***/ },
-/* 173 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(174);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(167)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(true) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept(174, function() {
-				var newContent = __webpack_require__(174);
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 174 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(166)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "tbody>tr:nth-child(1){\n    background-color:transparent;\n    color:#333;\n}\ntbody>tr:nth-child(1):not{\n    background-color:#fff;\n}\ntboyd>tr:nth-child(1)>td{\n    text-align:center;\n}\ntbody>tr:hover {\n    background-color:transparent;\n    border-color: transparent;\n}\ntbody>tr:hover>td>input[type=\"checkbox\"]{\n    cursor: pointer;\n}\ntbody>tr.un-render:hover{\n    background-color:transparent;\n    border-color:transparent;\n}\ntable.table-bordered.center.fu{\n    background-image:url(" + __webpack_require__(175) + ");\n   /* background-repeat:repeat-x,repeat-y;*/\n\n}\n.table.table-bordered.center.fu>tbody>tr>td{\n    border:1px solid #84C3F2;\n}\n.table.table-bordered.center.fu>thead>tr>td{\n    border:1px solid #84C3F2;\n}\n.table.table-bordered.center.fu>thead>tr>th{\n    border:1px solid #84C3F2;\n}\n.table.table-bordered.center.fu>tbody>tr>th{\n    border:1px solid #84C3F2;\n}", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 175 */
-/***/ function(module, exports) {
-
-	module.exports = "data:image/gif;base64,R0lGODlhkAGQAbMAAP//////AP8A//8AAAD//wD/AAAA/wAAAOLy//D4/////wAAAAAAAAAAAAAAAAAAACH5BAEAAAoALAAAAACQAZABAAT/EMlJq7046827/2AojmRpnmiqrmzrvnAsz3Rt33iu73zv/8CgcEgsGo/IpHLJbDqf0Kh0Sq1ar9isdsvter/gsHhMLpvP6LR6zW673/C4fE6v2+/4vH7P7/v/gIGCg4SFhoeIiYqLjI2Oj5CRkpOUlZaXmJmam5ydnp+goaKjpKWmp6ipqqusra6vsF4JsbRbCbe1uVW3uLq+Tby8v8NLwb3EyEXGs8nNQ8bO0UC4zNLWNcfCwtfcL9sI2sfd4ynfvd/k6SXBEuGz4hjo6uTQ4NT31RTL8PPc9fb23vELGDBfP3/nmN0raLDCwIP02E34d+EhxGvbxC2L1/BiN3Ya/zdasOgRIzpo/EiWNDnSncOOKz8OTFhNZUxr8gC2w3dTl0gPKfNR7EnrZwd48mwSVWWUQ1KYS18ZbLrhJNSoraYOdSr0KtZVSCWCUPqVVdicR72WNRsSLde1vqxuhYuw61y6JhXuU4sXWUaafPsOA5mNrOBf+ybePUysKdXAjJluHWo4cqq7ci2PWtzSLcGCmkWJ9MoZH+TQlf6StkkVtSfAKsS6DlXT8+xmsm/jtK17sMDeLCsDh6VwOM6dp42zRZ5c+WW9nJ2bVTy6ufTXzOsJv057b27upRqGyw6+E0mkipmX58QbLe/1qVV+fw9/Euvc9OtHUjrfun5F/Lnn3/9/hwQ404AEFkKWgAli8l0I+TWISHRVbSfhIBmZYOGFgfzFYXfieZjehw4mtdOJn5FoCX4oMoSgih1aNSJDMK4o44gR1jihWG2BpmOBXJmjVYY/YvggdUK+lFCRgixG2Izq5cgkHK0h1+JZR06JR5WdqUeeloBw2VJ20IEZpphKfkaNmTFSqI9AerHZJE8f/LShnGy4NBaPL+KJhp51LtSOn34ACtQ/fRJKBmHNjQeOonug1GhhiUIKhncjnGTplpJmeuemfxbGkQZSgkplR+1VamoYdvW4qiGtuqPqq2oI6d2stIZa26245lqGrS5m6esdN946bB8sklnqsbXalhj/s3F8+iy0b0jrJrVcaPepj9iakdiyY3a7BppAidvGtebmIWy6fIDLrhzuvntqr/J6GxS59abhGbr5Lurstv1m+y+9AUtBZ0UEFxzFkhkkrDAPyXX18BkvOjwxERVfzOpvGlqscQ/rvvWxLPHqNHIXAAN8shHZkKDyyhgzDKHHMOcg8541C2wykqTSnPMNcL7578+2UHYe0UUbTSrSSad4FNNaUAp1tS9PTUXVVhtcctZThMx1Frv6/LUPB4/dNV9em50Exz2LrbYLZfb89tW1VTj32VB2eTcUIbW99xEHOuT338oE9RJHWBNeDp/hdua24oc+hurWkHsz7UQIP155/+SYPro534ye8zngDQPr+eiFI04d6koYyHrraiX+OtyrzQ77VbLbzsK+muu+5+S9+x5oiMIXE1bxxh+OPOxvLp/8zs4jIWjOwQvBb76UW5G7r2lHvwO+3kN8ffhAj0++DeafT8Oa6k+zq9Pt2yx19vGLkCT89aOvGkH3VT+6tkETEPjyhzhRGWp13SOg3pZkGtz5z3YUKc0DWSciMo1KgYubXrAQhsEVyKZTyutgbEJUNuiJsGOTs1KLTpjBxh2QhScwHJImqLYBrhB+29OdDZ8Cw+FJ6UY9rIiSfiixIApRaKXKofOwZB0lIo+JnjJihWIlRcvFyoknlEsCq5gW6P/YkItTVOEWwVi6g9EPjNP6Ihkdx0TxrJFz9zreG7v4kMwYEV1Ogs0dtTPF88CJhjWkSRj7iEUKenGEhaQgz+ZoRUAScIyMfEsipajBSJZjUJbcnQozGcNDcrJjyvpkpmZYQVEuLVg3MyUh95LJo6UJMI7829D0gaMzni9VwFNl/0ioy9jhZ5LLMxDxTClMDoqymI1rJX0Y9Mn0bdKSRPJULBVXypmRMScS6ZsqF4k5nQhym17qJqVsicEP1u1L4DRn8/DXy/tZCZJcRNSQRPdGXzIOiTfcI++mhyV29jCPcbrh5Sh5LdWEbZpmGyAs47ZGhdKJffXcYdBMeE2J3nP/ji8kZN4qOtHhmQyhb8to28wRSZH6jZ4RLWEXV4fRJ9lPIy0daOQ4uZENkZN87gzhBXuZOXDGA4l28ekRQwnPho6TlUIVGillms75dS6pxXpqU9GjLGCGT1hMNSoKi1pOBKmxfgDspFU39y2VjdWQXO0mNNPaTpCq76YlPes/5QpDbGZ1qmWkq/ewqte9DiypzeMdRl+aT1rWE0Lr1GUMj8k2lxGzZH1FXVojK9k+UfZ/NXGZW2WZykPxlKIiY6wJ+brNjtKodKU1mgNTq7SG+dSkQ/2sP2ML1ct2FbDS3CxO4YpGbuIWtbzlqG4xu1LcNnanUH2mMWu7UaUCVlRlk3xuEVVH0xQaNnPDDeQwm8uttea0sGztIFIT69y2zue3QH1Wdl8nqWiWNq8sXS/h6ii137oOvfdBL3f3+1o/6pely/2vAP9bXv4aV44EJi9oBTzdBK/TtmA9roNnOGHUVvjCGM6whjfM4Q57+MMgDrGIR0ziEpv4xChOsYpXzOIWu/jFMI6xjGdM4xrb+MY47nAEAAA7"
-
-/***/ },
-/* 176 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _react = __webpack_require__(2);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _ButtonElement = __webpack_require__(169);
+	var _ButtonElement = __webpack_require__(173);
 	
 	var _ButtonElement2 = _interopRequireDefault(_ButtonElement);
 	
-	var _LinkElement = __webpack_require__(177);
+	var _LinkElement = __webpack_require__(176);
 	
 	var _LinkElement2 = _interopRequireDefault(_LinkElement);
 	
-	__webpack_require__(178);
+	__webpack_require__(177);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	/**
-	 * @convention 1,register u callback if u want to get noticed when event trigged in data-option["components"]
-	 * @convention 2,let's make a deal u callback func should named with key \'cb\'
-	 * @convention 3,that is ,the responsibility to handle event should owe to Parent component
+	 * @property,explicit:option: data-options{undefined||null||Object}
+	 * @property,explicit:option:   data-options.params{Array},
+	 * this property will form the content of list;
+	 * @property,implicit:option:   data-options.components{customer}
+	 * @property,implicit:option:   data-options.selected:{Integer}
+	 * this prop will make the first menu in list to be choosed
 	 */
 	var ListElement = _react2.default.createClass({
 	    displayName: 'ListElement',
@@ -21911,10 +22300,11 @@
 	        this.setState({ selected: selected });
 	    },
 	    applyCb: function applyCb() {
-	        if (this.props.cb !== undefined && this.props.cb !== null) {
+	        if (this.props.applyCb !== undefined && this.props.applyCb !== null) {
 	            if (this.state.selected !== null && this.state.selected !== undefined && !isNaN(parseInt(this.state.selected))) {
 	                if (this.state.li$items !== undefined && this.state.li$items !== null) {
-	                    this.props.cb(this.state.li$items[this.state.selected]);
+	                    this.props.applyCb({ content: this.state.li$items[this.state.selected],
+	                        index: this.state.selected });
 	                }
 	            }
 	        }
@@ -21922,7 +22312,7 @@
 	    cancelCb: function cancelCb(evt) {
 	        //cancel callback
 	        this.setState({ selected: -1 });
-	        if (this.props.cb !== undefined && this.props.cb !== null) this.props.cb(evt);
+	        if (this.props.cancelCb !== undefined && this.props.cancelCb !== null) this.props.cancelCb(evt);
 	    },
 	    getInitialState: function getInitialState() {
 	
@@ -22018,7 +22408,458 @@
 	exports.default = ListElement;
 
 /***/ },
-/* 177 */
+/* 173 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _TodoStore = __webpack_require__(174);
+	
+	var _TodoStore2 = _interopRequireDefault(_TodoStore);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ButtonElement = _react2.default.createClass({
+	    displayName: "ButtonElement",
+	
+	    feedbackCb: function feedbackCb(ob) {
+	
+	        this.state.feedback.params[ob.id] = ob.content;
+	        var count = 0;
+	        for (var item in this.state.feedback.params) {
+	            count++;
+	        }
+	        if (this.state.broadcastCount == count) {
+	            var feedback;
+	            this.queryHandle(this.state.feedback.params);
+	            this.state.feedback.params = new Array();
+	        }
+	    },
+	    clickCb: function clickCb(evt) {
+	        if (this.state.publish !== undefined && this.state.publish !== null) //优先处理订阅事件
+	            {
+	                if (this.state.publish.type == undefined || this.state.publish.type == null) throw "publish type undefined!";
+	                _TodoStore2.default.emit(this.state.publish.type);
+	            } else {
+	            if (this.props.query !== undefined && this.props.query !== null) {
+	                if (this.props.query.params !== undefined && this.props.query.params !== undefined) this.queryHandle();
+	            } else {
+	                if (this.props.handle !== undefined && this.props.handle !== null) this.props.handle(evt);
+	            }
+	        }
+	    },
+	    queryHandle: function queryHandle(ob) {
+	        var query = this.props.query;
+	        if (ob !== undefined && ob !== null) Object.assign(query.params, ob);
+	        console.log();
+	        $.ajax({
+	            type: 'POST',
+	            url: query.url,
+	            dataType: 'json',
+	            data: query.params,
+	            cache: false,
+	            success: function (data) {
+	                if (this.props.handle !== null && this.props.handle !== undefined) this.props.handle(data);
+	            }.bind(this),
+	            error: function error(xhr, status, err) {
+	                console.error(this.props.url, status, err.toString());
+	            }
+	        });
+	    },
+	    getInitialState: function getInitialState() {
+	        var subscribe;
+	        if (this.props.subscribe !== undefined && this.props.subscribe !== null) subscribe = this.props.subscribe;
+	
+	        var broadcastCount;
+	        var feedback;
+	        var publish;
+	        if (this.props.publish !== undefined && this.props.publish !== null) {
+	            publish = this.props.publish;
+	            broadcastCount = this.props.publish.broadcastCount;
+	            feedback = {};
+	            feedback["count"] = 0;
+	            feedback["params"] = {};
+	        }
+	        var arr;
+	        return { subscribe: subscribe, publish: publish, broadcastCount: broadcastCount,
+	            feedback: feedback, arr: arr };
+	    },
+	    render: function render() {
+	        var marginStyle = {
+	            marginRight: "20px"
+	        };
+	
+	        var buttonClass;
+	        if (this.props.buttonClass !== undefined && this.props.buttonClass !== null) buttonClass = this.props.buttonClass;
+	        var title;
+	        if (this.props.title !== null && this.props.title !== undefined) title = this.props.title;
+	        var data_toggle;
+	        if (this.props["data-toggle"] !== null && this.props["data-toggle"] !== undefined) data_toggle = this.props["data-toggle"];
+	        var arial_hasPopup;
+	        if (this.props["aria-haspopup"] !== null && this.props["aria-haspopup"] !== undefined) arial_hasPopup = this.props["aria-haspopup"];
+	        var aria_expanded;
+	        if (this.props["aria-expanded"] !== null && this.props["aria-expanded"] !== undefined) aria_expanded = this.props["aria-expanded"];
+	        return _react2.default.createElement(
+	            "button",
+	            { type: this.props.type, className: buttonClass, onClick: this.clickCb,
+	                style: marginStyle, "data-toggle": data_toggle, "aria-expanded": aria_expanded },
+	            title,
+	            this.props.children
+	        );
+	    },
+	    componentDidMount: function componentDidMount() {
+	        //注册订阅
+	        if (this.state.subscribe !== undefined && this.state.subscribe !== null) {
+	            var subscribe = this.state.subscribe;
+	            var instance = this;
+	            subscribe.map(function (item, i) {
+	                if (item['type'] !== undefined && item['type'] !== null) {
+	                    _TodoStore2.default.addChangeListener(item['type'], item['callback'].bind(instance));
+	                }
+	            });
+	        }
+	        //注册消息发布
+	        if (this.state.publish !== undefined && this.state.publish !== null && this.state.broadcastCount !== undefined && this.state.broadcastCount !== null) {
+	            var publish = this.state.publish;
+	            _TodoStore2.default.addChangeListener(publish.feedback.type, this.feedbackCb);
+	        }
+	    },
+	    componentWillUnmount: function componentWillUnmount() {
+	        //销毁订阅
+	        if (this.state.subscribe !== undefined && this.state.subscribe !== null) {
+	            var subscribe = this.state.subscribe;
+	            subscribe.map(function (item, i) {
+	                if (item['type'] !== undefined && item['type'] !== null) {
+	                    _TodoStore2.default.removeChangeListener(item['type'], item['callback']);
+	                }
+	            });
+	        }
+	        //销毁消息发布
+	        if (this.state.publish !== undefined && this.state.publish !== null) {
+	            _TodoStore2.default.removeChangeListener('feedback', this.feedbackCb);
+	        }
+	    }
+	});
+	
+	exports.default = ButtonElement;
+
+/***/ },
+/* 174 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var EventEmitter = __webpack_require__(175).EventEmitter;
+	var CHANGE_EVENT = 'fire';
+	
+	var TodoStore = Object.assign({}, EventEmitter.prototype, {
+	
+	    emitChange: function emitChange(type) {
+	        if (arguments.length > 1) this.emit(type, arguments[1]);else this.emit(type);
+	    },
+	
+	    /**
+	     * @param {function} callback
+	     */
+	    addChangeListener: function addChangeListener(type, callback) {
+	        this.on(type, callback);
+	    },
+	
+	    /**
+	     * @param {function} callback
+	     */
+	    removeChangeListener: function removeChangeListener(type, callback) {
+	        this.removeListener(type, callback);
+	    }
+	
+	});
+	
+	module.exports = TodoStore;
+
+/***/ },
+/* 175 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	function EventEmitter() {
+	  this._events = this._events || {};
+	  this._maxListeners = this._maxListeners || undefined;
+	}
+	module.exports = EventEmitter;
+	
+	// Backwards-compat with node 0.10.x
+	EventEmitter.EventEmitter = EventEmitter;
+	
+	EventEmitter.prototype._events = undefined;
+	EventEmitter.prototype._maxListeners = undefined;
+	
+	// By default EventEmitters will print a warning if more than 10 listeners are
+	// added to it. This is a useful default which helps finding memory leaks.
+	EventEmitter.defaultMaxListeners = 10;
+	
+	// Obviously not all Emitters should be limited to 10. This function allows
+	// that to be increased. Set to zero for unlimited.
+	EventEmitter.prototype.setMaxListeners = function (n) {
+	  if (!isNumber(n) || n < 0 || isNaN(n)) throw TypeError('n must be a positive number');
+	  this._maxListeners = n;
+	  return this;
+	};
+	
+	EventEmitter.prototype.emit = function (type) {
+	  var er, handler, len, args, i, listeners;
+	
+	  if (!this._events) this._events = {};
+	
+	  // If there is no 'error' event listener then throw.
+	  if (type === 'error') {
+	    if (!this._events.error || isObject(this._events.error) && !this._events.error.length) {
+	      er = arguments[1];
+	      if (er instanceof Error) {
+	        throw er; // Unhandled 'error' event
+	      }
+	      throw TypeError('Uncaught, unspecified "error" event.');
+	    }
+	  }
+	
+	  handler = this._events[type];
+	
+	  if (isUndefined(handler)) return false;
+	
+	  if (isFunction(handler)) {
+	    switch (arguments.length) {
+	      // fast cases
+	      case 1:
+	        handler.call(this);
+	        break;
+	      case 2:
+	        handler.call(this, arguments[1]);
+	        break;
+	      case 3:
+	        handler.call(this, arguments[1], arguments[2]);
+	        break;
+	      // slower
+	      default:
+	        args = Array.prototype.slice.call(arguments, 1);
+	        handler.apply(this, args);
+	    }
+	  } else if (isObject(handler)) {
+	    args = Array.prototype.slice.call(arguments, 1);
+	    listeners = handler.slice();
+	    len = listeners.length;
+	    for (i = 0; i < len; i++) {
+	      listeners[i].apply(this, args);
+	    }
+	  }
+	
+	  return true;
+	};
+	
+	EventEmitter.prototype.addListener = function (type, listener) {
+	  var m;
+	
+	  if (!isFunction(listener)) throw TypeError('listener must be a function');
+	
+	  if (!this._events) this._events = {};
+	
+	  // To avoid recursion in the case that type === "newListener"! Before
+	  // adding it to the listeners, first emit "newListener".
+	  if (this._events.newListener) this.emit('newListener', type, isFunction(listener.listener) ? listener.listener : listener);
+	
+	  if (!this._events[type])
+	    // Optimize the case of one listener. Don't need the extra array object.
+	    this._events[type] = listener;else if (isObject(this._events[type]))
+	    // If we've already got an array, just append.
+	    this._events[type].push(listener);else
+	    // Adding the second element, need to change to array.
+	    this._events[type] = [this._events[type], listener];
+	
+	  // Check for listener leak
+	  if (isObject(this._events[type]) && !this._events[type].warned) {
+	    if (!isUndefined(this._maxListeners)) {
+	      m = this._maxListeners;
+	    } else {
+	      m = EventEmitter.defaultMaxListeners;
+	    }
+	
+	    if (m && m > 0 && this._events[type].length > m) {
+	      this._events[type].warned = true;
+	      console.error('(node) warning: possible EventEmitter memory ' + 'leak detected. %d listeners added. ' + 'Use emitter.setMaxListeners() to increase limit.', this._events[type].length);
+	      if (typeof console.trace === 'function') {
+	        // not supported in IE 10
+	        console.trace();
+	      }
+	    }
+	  }
+	
+	  return this;
+	};
+	
+	EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+	
+	EventEmitter.prototype.once = function (type, listener) {
+	  if (!isFunction(listener)) throw TypeError('listener must be a function');
+	
+	  var fired = false;
+	
+	  function g() {
+	    this.removeListener(type, g);
+	
+	    if (!fired) {
+	      fired = true;
+	      listener.apply(this, arguments);
+	    }
+	  }
+	
+	  g.listener = listener;
+	  this.on(type, g);
+	
+	  return this;
+	};
+	
+	// emits a 'removeListener' event iff the listener was removed
+	EventEmitter.prototype.removeListener = function (type, listener) {
+	  var list, position, length, i;
+	
+	  if (!isFunction(listener)) throw TypeError('listener must be a function');
+	
+	  if (!this._events || !this._events[type]) return this;
+	
+	  list = this._events[type];
+	  length = list.length;
+	  position = -1;
+	
+	  if (list === listener || isFunction(list.listener) && list.listener === listener) {
+	    delete this._events[type];
+	    if (this._events.removeListener) this.emit('removeListener', type, listener);
+	  } else if (isObject(list)) {
+	    for (i = length; i-- > 0;) {
+	      if (list[i] === listener || list[i].listener && list[i].listener === listener) {
+	        position = i;
+	        break;
+	      }
+	    }
+	
+	    if (position < 0) return this;
+	
+	    if (list.length === 1) {
+	      list.length = 0;
+	      delete this._events[type];
+	    } else {
+	      list.splice(position, 1);
+	    }
+	
+	    if (this._events.removeListener) this.emit('removeListener', type, listener);
+	  }
+	
+	  return this;
+	};
+	
+	EventEmitter.prototype.removeAllListeners = function (type) {
+	  var key, listeners;
+	
+	  if (!this._events) return this;
+	
+	  // not listening for removeListener, no need to emit
+	  if (!this._events.removeListener) {
+	    if (arguments.length === 0) this._events = {};else if (this._events[type]) delete this._events[type];
+	    return this;
+	  }
+	
+	  // emit removeListener for all listeners on all events
+	  if (arguments.length === 0) {
+	    for (key in this._events) {
+	      if (key === 'removeListener') continue;
+	      this.removeAllListeners(key);
+	    }
+	    this.removeAllListeners('removeListener');
+	    this._events = {};
+	    return this;
+	  }
+	
+	  listeners = this._events[type];
+	
+	  if (isFunction(listeners)) {
+	    this.removeListener(type, listeners);
+	  } else if (listeners) {
+	    // LIFO order
+	    while (listeners.length) {
+	      this.removeListener(type, listeners[listeners.length - 1]);
+	    }
+	  }
+	  delete this._events[type];
+	
+	  return this;
+	};
+	
+	EventEmitter.prototype.listeners = function (type) {
+	  var ret;
+	  if (!this._events || !this._events[type]) ret = [];else if (isFunction(this._events[type])) ret = [this._events[type]];else ret = this._events[type].slice();
+	  return ret;
+	};
+	
+	EventEmitter.prototype.listenerCount = function (type) {
+	  if (this._events) {
+	    var evlistener = this._events[type];
+	
+	    if (isFunction(evlistener)) return 1;else if (evlistener) return evlistener.length;
+	  }
+	  return 0;
+	};
+	
+	EventEmitter.listenerCount = function (emitter, type) {
+	  return emitter.listenerCount(type);
+	};
+	
+	function isFunction(arg) {
+	  return typeof arg === 'function';
+	}
+	
+	function isNumber(arg) {
+	  return typeof arg === 'number';
+	}
+	
+	function isObject(arg) {
+	  return (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'object' && arg !== null;
+	}
+	
+	function isUndefined(arg) {
+	  return arg === void 0;
+	}
+
+/***/ },
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22037,16 +22878,24 @@
 	    displayName: "LinkElement",
 	
 	    clickCb: function clickCb(evt) {
-	        console.log();
 	        this.props.clickCb(evt);
 	    },
 	    render: function render() {
-	        //list-group-item
 	        var data$index;
 	        if (this.props["data-index"] !== null && this.props["data-index"] !== undefined) data$index = this.props["data-index"];
+	
+	        //link,上层组件传来的超链
+	        var link;
+	        if (this.props.link !== undefined && this.props.link !== null) link = this.props.link;else link = "javascript:void(0)";
+	
+	        var alignStyle;
+	        if (this.props.align !== undefined && this.props.align !== null) alignStyle = {
+	            textAlign: this.props.align
+	        };
 	        return _react2.default.createElement(
 	            "a",
-	            { href: "#", className: this.props.linkClass, "data-index": data$index, onClick: this.clickCb, blued: true },
+	            { href: link, className: this.props.linkClass, "data-index": data$index,
+	                onClick: this.clickCb, style: alignStyle },
 	            this.props.children
 	        );
 	    }
@@ -22055,13 +22904,13 @@
 	exports.default = LinkElement;
 
 /***/ },
-/* 178 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(179);
+	var content = __webpack_require__(178);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(167)(content, {});
@@ -22070,8 +22919,8 @@
 	if(true) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept(179, function() {
-				var newContent = __webpack_require__(179);
+			module.hot.accept(178, function() {
+				var newContent = __webpack_require__(178);
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -22081,7 +22930,7 @@
 	}
 
 /***/ },
-/* 179 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(166)();
@@ -22089,13 +22938,381 @@
 	
 	
 	// module
-	exports.push([module.id, ".list-group-item.active, .list-group-item.active:hover,.list-group-item.active:focus\n{\n    background-color:#968D8D;\n    border-color:#968D8D;\n}", ""]);
+	exports.push([module.id, ".list-group-item.active, .list-group-item.active:hover,.list-group-item.active:focus\r\n{\r\n    background-color:#968D8D;\r\n    border-color:#968D8D;\r\n}", ""]);
 	
 	// exports
 
 
 /***/ },
+/* 179 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var CheckBoxElement = _react2.default.createClass({
+	    displayName: "CheckBoxElement",
+	
+	    clickCb: function clickCb(evt) {
+	        var target = evt.target;
+	        if ($(target).attr("data-index") !== null && $(target).attr("data-index") !== undefined) {
+	            var index = $(target).attr("data-index");
+	            if (!isNaN(parseInt(index))) this.props.checkCb(index);
+	        }
+	    },
+	    render: function render() {
+	        if (this.props.checked === true) return _react2.default.createElement("input", { type: "checkbox", "aria-label": "...",
+	            value: this.props.value, onChange: this.clickCb, checked: "checked", "data-index": this.props["data-index"] });else return _react2.default.createElement("input", { type: "checkbox", "aria-label": "...",
+	            value: this.props.value, onChange: this.clickCb, "data-index": this.props["data-index"] });
+	    }
+	});
+	
+	exports.default = CheckBoxElement;
+
+/***/ },
 /* 180 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _ButtonElement = __webpack_require__(173);
+	
+	var _ButtonElement2 = _interopRequireDefault(_ButtonElement);
+	
+	var _MenuLinkElement = __webpack_require__(181);
+	
+	var _MenuLinkElement2 = _interopRequireDefault(_MenuLinkElement);
+	
+	var _TodoStore = __webpack_require__(174);
+	
+	var _TodoStore2 = _interopRequireDefault(_TodoStore);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	/**
+	 * @property,explicit:required: title{String}
+	 * @property,explicit:option:   data{link,title}
+	 * @property,explicit:option:   auto{false|undefined|null|xxx},
+	 * this prop will forbid component get menu from server-end if this prop is set to true;
+	 * u can set any-value  to enable dynamic menu-fetch;
+	 * @property,implicit:option:   query{params:xxx,url:xxx}
+	 * @property,implicit:option:   subscribe:{type:xxx,cb:xxx}
+	 * this prop component subscribe the message of the type you specified
+	 */
+	
+	var DropDownButtonElement = _react2.default.createClass({
+	    displayName: 'DropDownButtonElement',
+	
+	    initialData: function initialData() {
+	        if (this.props.query !== undefined && this.props.query !== null) {
+	            $.ajax({
+	                type: 'POST',
+	                url: this.props.query.url,
+	                dataType: 'json',
+	                data: this.props.query.params,
+	                cache: false,
+	                success: function (data) {
+	                    if (data !== undefined && data !== null && data.length > 0) this.setState({ data: data, initialedData: true });
+	                }.bind(this),
+	                error: function error(xhr, status, err) {
+	                    console.error(this.props.url, status, err.toString());
+	                }
+	            });
+	        }
+	    },
+	    selectCb: function selectCb(ob) {
+	        if (ob !== undefined && ob !== null) {
+	            //selectedIndex indicate which menu you select
+	            if (ob.index !== null && ob.index !== undefined) this.setState({ selectedIndex: ob.index });
+	        }
+	    },
+	    getInitialState: function getInitialState() {
+	        var data;
+	        if (this.props.data !== undefined && this.props.data !== null) data = this.props.data;
+	        var auto; //enable dynamic data-fetch
+	        if (this.props.auto !== undefined && this.props.auto !== null && this.props.auto !== false) auto = true;
+	        var initialedData;
+	        if (data !== undefined && data !== null) initialedData = true;
+	        var subscribe;
+	        if (this.props.subscribe !== undefined && this.props.subscribe !== null) subscribe = this.props.subscribe;
+	        var selectedIndex;
+	        if (this.props.selectedIndex !== undefined && this.props.selectedIndex !== null) selectedIndex = this.props.selectedIndex;
+	        var id;
+	        if (this.props.id !== undefined && this.props.id !== null) id = this.props.id;
+	        return { data: data, auto: auto, initialedData: initialedData, subscribe: subscribe,
+	            selectedIndex: selectedIndex, id: id };
+	    },
+	    render: function render() {
+	        var t_menu;
+	        if (this.state.initialedData === true) {
+	            var selectCb = this.selectCb;
+	            t_menu = this.state.data.map(function (item, i) {
+	                return _react2.default.createElement(_MenuLinkElement2.default, { link: item.link, content: item.title, key: i, index: i, handle: selectCb });
+	            });
+	        } else {
+	            if (this.state.auto === true) {
+	                this.initialData();
+	            }
+	        }
+	
+	        var title;
+	        if (this.state.selectedIndex !== null && this.state.selectedIndex !== undefined) title = this.state.data[this.state.selectedIndex]["title"];else {
+	            if (this.props.title !== undefined && this.props.title !== null) title = this.props.title;
+	        }
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'btn-group' },
+	            _react2.default.createElement(
+	                _ButtonElement2.default,
+	                { type: 'button', buttonClass: 'btn btn-default dropdown-toggle',
+	                    'data-toggle': 'dropdown', 'aria-haspopup': 'true',
+	                    'aria-expanded': 'false', title: title },
+	                _react2.default.createElement('span', { className: 'caret' })
+	            ),
+	            _react2.default.createElement(
+	                'ul',
+	                { className: 'dropdown-menu' },
+	                t_menu
+	            )
+	        );
+	    },
+	    componentDidMount: function componentDidMount() {
+	        //注册订阅
+	        if (this.state.subscribe !== undefined && this.state.subscribe !== null) {
+	            var subscribe = this.state.subscribe;
+	            var instance = this;
+	            subscribe.map(function (item, i) {
+	                if (item['type'] !== undefined && item['type'] !== null) {
+	                    _TodoStore2.default.addChangeListener(item['type'], item['callback'].bind(instance));
+	                }
+	            });
+	        }
+	    },
+	    componentWillUnmount: function componentWillUnmount() {
+	        //销毁订阅
+	        if (this.state.subscribe !== undefined && this.state.subscribe !== null) {
+	            var subscribe = this.state.subscribe;
+	            subscribe.map(function (item, i) {
+	                if (item['type'] !== undefined && item['type'] !== null) {
+	                    _TodoStore2.default.removeChangeListener(item['type'], item['callback']);
+	                }
+	            });
+	        }
+	    }
+	});
+	
+	exports.default = DropDownButtonElement;
+
+/***/ },
+/* 181 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var MenuLinkElement = _react2.default.createClass({
+	    displayName: 'MenuLinkElement',
+	
+	    clickCb: function clickCb() {
+	        if (this.props.handle !== undefined && this.props.handle !== null) this.props.handle({ content: this.props.content, index: this.state.index });
+	    },
+	    getInitialState: function getInitialState() {
+	        var index;
+	        if (this.props.index !== undefined && this.props.index !== null) index = this.props.index;
+	
+	        return { index: index };
+	    },
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	                'a',
+	                { href: this.props.link, onClick: this.clickCb },
+	                this.props.content
+	            )
+	        );
+	    }
+	});
+	
+	exports.default = MenuLinkElement;
+
+/***/ },
+/* 182 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ComboBox = _react2.default.createClass({
+	    displayName: 'ComboBox',
+	
+	
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'span',
+	            null,
+	            'fuck u'
+	        );
+	    }
+	});
+	
+	exports.default = ComboBox;
+
+/***/ },
+/* 183 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _TodoStore = __webpack_require__(174);
+	
+	var _TodoStore2 = _interopRequireDefault(_TodoStore);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var InputElement = _react2.default.createClass({
+	    displayName: 'InputElement',
+	
+	    changeCb: function changeCb(evt) {
+	        var target = evt.target;
+	        var content = $(target).val();
+	        this.setState({ content: content });
+	    },
+	    getInitialState: function getInitialState() {
+	        var content;
+	        if (this.props.content !== undefined && this.props.content !== null) {
+	            content = this.props.content;
+	        }
+	        var subscribe;
+	        if (this.props.subscribe !== undefined && this.props.subscribe !== null) subscribe = this.props.subscribe;
+	        return { content: content, subscribe: subscribe };
+	    },
+	    render: function render() {
+	        console.log();
+	
+	        return _react2.default.createElement('input', { id: this.props.id, type: this.props.type,
+	            className: this.props.className,
+	            placeholder: this.props.placeholder,
+	            value: this.state.content !== undefined && this.state.content !== null ? this.state.content : null, onChange: this.changeCb });
+	    },
+	    componentDidMount: function componentDidMount() {
+	        //注册订阅
+	        if (this.state.subscribe !== undefined && this.state.subscribe !== null) {
+	            var subscribe = this.state.subscribe;
+	            var instance = this;
+	            subscribe.map(function (item, i) {
+	                if (item['type'] !== undefined && item['type'] !== null) {
+	                    _TodoStore2.default.addChangeListener(item['type'], item['callback'].bind(instance));
+	                }
+	            });
+	        }
+	    },
+	    componentWillUnmount: function componentWillUnmount() {
+	        //销毁订阅
+	        if (this.state.subscribe !== undefined && this.state.subscribe !== null) {
+	            var subscribe = this.state.subscribe;
+	            subscribe.map(function (item, i) {
+	                if (item['type'] !== undefined && item['type'] !== null) {
+	                    _TodoStore2.default.removeChangeListener(item['type'], item['callback']);
+	                }
+	            });
+	        }
+	    }
+	});
+	exports.default = InputElement;
+
+/***/ },
+/* 184 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(185);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(167)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(true) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept(185, function() {
+				var newContent = __webpack_require__(185);
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 185 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(166)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\r\ntbody>tr:hover {\r\n    background-color: #eee;\r\n    border-color: #eee;\r\n}\r\ntbody>tr:nth-child(1)>td:hover{\r\n     background-color:transparent;\r\n }\r\ntbody>tr:hover>td>input[type=\"checkbox\"]{\r\n    cursor: pointer;\r\n}\r\ntbody>tr.un-render:hover{\r\n    background-color:transparent;\r\n    border-color:transparent;\r\n}\r\ntbody>tr:hover>td.un-render{\r\n    background-color:transparent;\r\n    background-image:url(" + __webpack_require__(186) + ");\r\n}\r\ntbody>tr:nth-child(1):not>td.un-render{\r\n    background-color:transparent;\r\n}\r\ntbody{\r\n   /* background-image:url(\"../../../../icon/body.gif\");*/\r\n}\r\n.table.table-bordered.center>tbody>tr>td{\r\n    border:1px solid #336699;\r\n    font-family: lucida, verdana, arial, sans-serif;\r\n    font-size:12px;\r\n    background-color:#ffffff;\r\n}\r\n.table.table-bordered.center>tbody>tr>th{\r\n    border:1px solid #336699;\r\n    text-align:center;\r\n    font-family: lucida, verdana, arial, sans-serif;\r\n    font-size:12px;\r\n    color:#080808;\r\n}\r\n.table.table-bordered.center>thead>tr>td{\r\n    border:1px solid #336699;\r\n    font-family: lucida, verdana, arial, sans-serif;\r\n    font-size:12px;\r\n}\r\n.table.table-bordered.center>thead>tr>th{\r\n    border:1px solid #336699;\r\n    color:#FF4B6B;\r\n    text-align:center;\r\n    font-family: lucida, verdana, arial, sans-serif;\r\n    font-size:12px;\r\n}\r\n\r\n.table.table-bordered.center{\r\n    font-size:20px;\r\n    padding:5px;\r\n}\r\n.table.table-bordered.center>tbody>tr{\r\n    background-color:transparent;\r\n}\r\nbody{\r\n    background-image:url(" + __webpack_require__(186) + ");\r\n}", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 186 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/gif;base64,R0lGODlhkAGQAbMAAP//////AP8A//8AAAD//wD/AAAA/wAAAOLy//D4/////wAAAAAAAAAAAAAAAAAAACH5BAEAAAoALAAAAACQAZABAAT/EMlJq7046827/2AojmRpnmiqrmzrvnAsz3Rt33iu73zv/8CgcEgsGo/IpHLJbDqf0Kh0Sq1ar9isdsvter/gsHhMLpvP6LR6zW673/C4fE6v2+/4vH7P7/v/gIGCg4SFhoeIiYqLjI2Oj5CRkpOUlZaXmJmam5ydnp+goaKjpKWmp6ipqqusra6vsF4JsbRbCbe1uVW3uLq+Tby8v8NLwb3EyEXGs8nNQ8bO0UC4zNLWNcfCwtfcL9sI2sfd4ynfvd/k6SXBEuGz4hjo6uTQ4NT31RTL8PPc9fb23vELGDBfP3/nmN0raLDCwIP02E34d+EhxGvbxC2L1/BiN3Ya/zdasOgRIzpo/EiWNDnSncOOKz8OTFhNZUxr8gC2w3dTl0gPKfNR7EnrZwd48mwSVWWUQ1KYS18ZbLrhJNSoraYOdSr0KtZVSCWCUPqVVdicR72WNRsSLde1vqxuhYuw61y6JhXuU4sXWUaafPsOA5mNrOBf+ybePUysKdXAjJluHWo4cqq7ci2PWtzSLcGCmkWJ9MoZH+TQlf6StkkVtSfAKsS6DlXT8+xmsm/jtK17sMDeLCsDh6VwOM6dp42zRZ5c+WW9nJ2bVTy6ufTXzOsJv057b27upRqGyw6+E0mkipmX58QbLe/1qVV+fw9/Euvc9OtHUjrfun5F/Lnn3/9/hwQ404AEFkKWgAli8l0I+TWISHRVbSfhIBmZYOGFgfzFYXfieZjehw4mtdOJn5FoCX4oMoSgih1aNSJDMK4o44gR1jihWG2BpmOBXJmjVYY/YvggdUK+lFCRgixG2Izq5cgkHK0h1+JZR06JR5WdqUeeloBw2VJ20IEZpphKfkaNmTFSqI9AerHZJE8f/LShnGy4NBaPL+KJhp51LtSOn34ACtQ/fRJKBmHNjQeOonug1GhhiUIKhncjnGTplpJmeuemfxbGkQZSgkplR+1VamoYdvW4qiGtuqPqq2oI6d2stIZa26245lqGrS5m6esdN946bB8sklnqsbXalhj/s3F8+iy0b0jrJrVcaPepj9iakdiyY3a7BppAidvGtebmIWy6fIDLrhzuvntqr/J6GxS59abhGbr5Lurstv1m+y+9AUtBZ0UEFxzFkhkkrDAPyXX18BkvOjwxERVfzOpvGlqscQ/rvvWxLPHqNHIXAAN8shHZkKDyyhgzDKHHMOcg8541C2wykqTSnPMNcL7578+2UHYe0UUbTSrSSad4FNNaUAp1tS9PTUXVVhtcctZThMx1Frv6/LUPB4/dNV9em50Exz2LrbYLZfb89tW1VTj32VB2eTcUIbW99xEHOuT338oE9RJHWBNeDp/hdua24oc+hurWkHsz7UQIP155/+SYPro534ye8zngDQPr+eiFI04d6koYyHrraiX+OtyrzQ77VbLbzsK+muu+5+S9+x5oiMIXE1bxxh+OPOxvLp/8zs4jIWjOwQvBb76UW5G7r2lHvwO+3kN8ffhAj0++DeafT8Oa6k+zq9Pt2yx19vGLkCT89aOvGkH3VT+6tkETEPjyhzhRGWp13SOg3pZkGtz5z3YUKc0DWSciMo1KgYubXrAQhsEVyKZTyutgbEJUNuiJsGOTs1KLTpjBxh2QhScwHJImqLYBrhB+29OdDZ8Cw+FJ6UY9rIiSfiixIApRaKXKofOwZB0lIo+JnjJihWIlRcvFyoknlEsCq5gW6P/YkItTVOEWwVi6g9EPjNP6Ihkdx0TxrJFz9zreG7v4kMwYEV1Ogs0dtTPF88CJhjWkSRj7iEUKenGEhaQgz+ZoRUAScIyMfEsipajBSJZjUJbcnQozGcNDcrJjyvpkpmZYQVEuLVg3MyUh95LJo6UJMI7829D0gaMzni9VwFNl/0ioy9jhZ5LLMxDxTClMDoqymI1rJX0Y9Mn0bdKSRPJULBVXypmRMScS6ZsqF4k5nQhym17qJqVsicEP1u1L4DRn8/DXy/tZCZJcRNSQRPdGXzIOiTfcI++mhyV29jCPcbrh5Sh5LdWEbZpmGyAs47ZGhdKJffXcYdBMeE2J3nP/ji8kZN4qOtHhmQyhb8to28wRSZH6jZ4RLWEXV4fRJ9lPIy0daOQ4uZENkZN87gzhBXuZOXDGA4l28ekRQwnPho6TlUIVGillms75dS6pxXpqU9GjLGCGT1hMNSoKi1pOBKmxfgDspFU39y2VjdWQXO0mNNPaTpCq76YlPes/5QpDbGZ1qmWkq/ewqte9DiypzeMdRl+aT1rWE0Lr1GUMj8k2lxGzZH1FXVojK9k+UfZ/NXGZW2WZykPxlKIiY6wJ+brNjtKodKU1mgNTq7SG+dSkQ/2sP2ML1ct2FbDS3CxO4YpGbuIWtbzlqG4xu1LcNnanUH2mMWu7UaUCVlRlk3xuEVVH0xQaNnPDDeQwm8uttea0sGztIFIT69y2zue3QH1Wdl8nqWiWNq8sXS/h6ii137oOvfdBL3f3+1o/6pely/2vAP9bXv4aV44EJi9oBTzdBK/TtmA9roNnOGHUVvjCGM6whjfM4Q57+MMgDrGIR0ziEpv4xChOsYpXzOIWu/jFMI6xjGdM4xrb+MY47nAEAAA7"
+
+/***/ },
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22112,10 +23329,11 @@
 	
 	var _Table2 = _interopRequireDefault(_Table);
 	
-	__webpack_require__(181);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	/**
+	 * @api,
+	 */
 	var CoupleTableElement = _react2.default.createClass({
 	    displayName: 'CoupleTableElement',
 	
@@ -22129,15 +23347,34 @@
 	                dataType: 'json',
 	                data: params,
 	                cache: false,
-	                success: function (data) {
+	                success: function (ob) {
+	                    var data = ob.array;
+	                    var group = ob.group;
+	                    var op = ob.op;
+	                    var title = ob.title;
+	                    var title$index = ob.title$index;
+	                    var tags = this.state.tags;
+	
 	                    if (data !== undefined && data !== null) {
 	                        var dataS = new Array();
-	                        data.array.map(function (item, i) {
+	                        data.map(function (item, i) {
 	                            dataS.push(item);
 	                        });
-	                        var titles = this.state.titles;
-	                        titles[0] = data.title;
-	                        this.setState({ dataS: dataS, initialDataS: true, title: titles });
+	                        if (group !== undefined && group !== null) {
+	                            data.map(function (item, i) {
+	                                tags[i]["data-options"].group = group;
+	                            });
+	                        }
+	                        //契约选项的更新
+	                        if (op !== undefined && op !== null) {
+	                            op.map(function (item, i) {
+	                                tags[item.index]["data-options"].op = item;
+	                            });
+	                        }
+	                        if (title !== undefined && title !== null && !isNaN(parseInt(title$index))) {
+	                            tags[parseInt(title$index)]["data-options"].title = title;
+	                        }
+	                        this.setState({ dataS: dataS, initialDataS: true, tags: tags });
 	                    }
 	                }.bind(this),
 	                error: function (xhr, status, err) {
@@ -22157,7 +23394,6 @@
 	                    dataS[i].splice(ob.checkedIndex, 1);
 	                }
 	            });
-	
 	            this.setState({ dataS: dataS });
 	        }
 	    },
@@ -22175,19 +23411,15 @@
 	    getInitialState: function getInitialState() {
 	
 	        //property tags(name,data-options,data)
+	        //u can put data[] in this setting when component first be rendered
 	        var tags;
+	        //property dataS
 	        var dataS;
+	        //dataS initial status
 	        var initialDataS;
-	        var titles;
 	        if (this.props.tags !== undefined && this.props.tags !== null) {
 	
 	            tags = this.props.tags;
-	
-	            titles = tags.map(function (item, i) {
-	                for (var field in item) {
-	                    if (field == "title") return item[field];
-	                }
-	            });
 	
 	            dataS = tags.map(function (item, i) {
 	                for (var field in item) {
@@ -22202,16 +23434,15 @@
 	            var data$options;
 	            if (this.props["data-options"] !== undefined && this.props["data-options"] !== null) data$options = this.props["data-options"];
 	        }
-	        return { tags: tags, dataS: dataS, initialDataS: initialDataS, data$options: data$options,
-	            titles: titles };
+	        return { tags: tags, dataS: dataS, initialDataS: initialDataS, data$options: data$options };
 	    },
 	    render: function render() {
 	
-	        var width = "600px";
+	        var width = "100%";
 	        var divRowStyle = {
-	            marginTop: 0
+	            marginTop: 20
 	        };
-	        var containerStyle = { textAlign: "center", paddingRight: "20" };
+	        var containerStyle = { textAlign: "center" };
 	
 	        var tags = null;
 	
@@ -22219,16 +23450,19 @@
 	            if (this.state.tags !== undefined && this.state.tags !== null) {
 	                var notifyCb = this.notifyCb;
 	                var tags = this.state.tags;
-	                var titles = this.state.titles;
-	                tags = this.state.dataS.map(function (item, i) {
+	                //this loop based in dataS,so if u want to reset data in tabls
+	                //u can dynamiclly set dataS through setState method
+	                var initial$dataS = this.initialDatas;
+	                var tables = this.state.dataS.map(function (item, i) {
+	                    //fetch data-options of each table
 	                    var data$options = tags[i]["data-options"];
+	                    //fetch data of each data
 	                    var data = item;
-	                    var title;
-	                    if (titles !== undefined && titles !== null && titles[i] !== undefined && titles[i] !== null) title = titles[i];
 	                    return _react2.default.createElement(_Table2.default, { tdBasic: true, multiEnable: 1, key: i, index: i,
-	                        width: "100%", center: true,
-	                        'data-options': data$options, data: data, align: 'right',
-	                        notifyCb: notifyCb, title: title
+	                        width: width, center: true,
+	                        'data-options': data$options, data: data, align: 'left', 'title-color': 'transparent',
+	                        'title-font-color': '#fff', notifyCb: notifyCb,
+	                        initialDatas: initial$dataS
 	                    });
 	                });
 	            }
@@ -22242,53 +23476,13 @@
 	            _react2.default.createElement(
 	                'div',
 	                { className: 'container', style: containerStyle },
-	                tags
+	                tables
 	            )
 	        );
 	    }
 	});
 	
 	exports.default = CoupleTableElement;
-
-/***/ },
-/* 181 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(182);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(167)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(true) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept(182, function() {
-				var newContent = __webpack_require__(182);
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 182 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(166)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "div.container{\r\nbackground-image:url(" + __webpack_require__(175) + ");\r\nheight:100%;\r\n    width:100%;\r\n}\r\ndiv.row>div.container{\r\n    padding-top:20px;\r\n    padding-right:20px;\r\n\r\n}", ""]);
-	
-	// exports
-
 
 /***/ }
 /******/ ]);

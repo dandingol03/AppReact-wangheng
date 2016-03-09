@@ -1,0 +1,29 @@
+div.list-group.level{
+    width:90%;
+}
+div.list-group>li.list-group-item.first{
+    text-align: left;
+    text-indent: 2em;
+    background-color:#7F7F8C;
+    color:#fff;
+    font-family:  Microsoft YaHei,lucida, verdana, arial, sans-serif;
+    font-size:20px;
+}
+div.list-group>li.list-group-item.first:hover{
+    cursor:pointer;
+    background-color: #55555d;
+    font-weight: bolder;
+}
+div.list-group>li.list-group-item.second{
+    text-align: left;
+    text-indent: 8em;
+}
+div.list-group>li.list-group-item.second:hover{
+    cursor:pointer;
+}
+div.list-group>div.embed-div>li.list-group-item{
+    text-align: left;
+    text-indent: 8em;
+    font-family:  Microsoft YaHei,lucida, verdana, arial, sans-serif;
+    font-size:16px;
+}

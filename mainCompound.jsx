@@ -5,7 +5,7 @@ import {render} from 'react-dom';
 import Table from './components/forms/Table.jsx';
 import ListElement from './components/basic/ListElement.jsx';
 import ButtonElement from './components/basic/ButtonElement.jsx';
-import CoupleTableElement from './components/compounds/CoupleTableElement.jsx';
+import CoupleTableElement from './components/compounds/coupleTable/CoupleTableElement.jsx';
 
 
 Boot()
@@ -32,40 +32,71 @@ function Boot()
         {'name':'jb','age':23,'sex':'man'}
     ]
     var data$options={
-        url:"/gradms/bsuims/reactPageDataRequest.do",
+        url:"gradms/bsuims/reactPageDataRequest.do",
         params:{
-            reactPageName:'newCultivatePlanPage',
-            reactActionName:'newPlanselectCourse'
+            reactPageName:'newCultivateTeachSchedulePage',
+            reactActionName:'reactGetCoupleData'
         }
     }
-
     var data$options$1={
-        checked:{
-            url:"../../gradms/bsuims/reactPageDataRequest.do",
-            params:{
-                reactPageName:'newCultivatePlanPage',
-                reactActionName:'selectCourseDelete'
+        widths:["25%","25%","25%","25%"],
+        components:[
+            {
+                name:"查询",type:"query",
+                params:{
+                    reactPageName:'newCultivateTeachSchedulePage',
+                    reactActionName:'reactGetTestData'
+                },
+                url:"gradms/bsuims/reactPageDataRequest.do"
             },
-            name:"删除上表选择",
-            conductInTable:true
+            {
+                name:"年级",type:"dropdown",params:[
+                {link:"www.baidu.com",title:"baidu"},
+                {link:"www.sohu.com",title:"sohu"},
+                {link:"www.kuaibo.com",title:"kuaibo"},
+                {link:"www.shanda.com",title:"shanda"}]
+            }],
+        checked:{
+            url:"gradms/bsuims/reactPageDataRequest.do",
+            params:{
+                reactPageName:'newCultivateTeachSchedulePage',
+                reactActionName:'reactGetTestData'
+            },
+            name:"增加上表选择",
         },group:{
-            property:"类别"
+            property:"isedit"
         }
 
     }
 
     var data$options$2={
+        widths:["25%","25%","25%","25%"],
+        components:[
+            {
+                name:"查询",type:"query",
+                params:{
+                    reactPageName:'newCultivateTeachSchedulePage',
+                    reactActionName:'reactGetTestData'
+                },
+                url:"gradms/bsuims/reactPageDataRequest.do"
+            },
+            {
+                name:"年级",type:"dropdown",params:[
+                {link:"www.baidu.com",title:"baidu"},
+                {link:"www.sohu.com",title:"sohu"},
+                {link:"www.kuaibo.com",title:"kuaibo"},
+                {link:"www.shanda.com",title:"shanda"}]
+            }],
         checked:{
-            url:"../../gradms/bsuims/reactPageDataRequest.do",
+            url:"gradms/bsuims/reactPageDataRequest.do",
             params:{
-                reactPageName:'newCultivatePlanPage',
-                reactActionName:'selectCourseInsert'
+                reactPageName:'newCultivateTeachSchedulePage',
+                reactActionName:'reactGetTestData'
             },
             name:"增加下表选择",
-            conductInTable:true
         },
         group:{
-            property:"类别"
+            property:"isedit"
         }
     }
 
@@ -79,7 +110,7 @@ function Boot()
     var containerStyle={textAlign:"center"};
     render(
         <CoupleTableElement tags={tags} data-options={data$options}/>
-        , document.getElementById('cultivatePlanJsx'));
+        , document.getElementById('root'));
 
 
 }

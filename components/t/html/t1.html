@@ -27,7 +27,18 @@
                     console.log("index="+item[index]);
                     console.log();
                 }
-            })
+            });
+
+
+
+            var a1=[null,null,null,4,null,6,7,8];
+            for(var i=a1.length-1;i>=0;i--)
+            {
+                if(a1[i]==null)
+                a1.splice(i,1);
+            }
+
+            console.log(a1);
         });
 
     </script>
